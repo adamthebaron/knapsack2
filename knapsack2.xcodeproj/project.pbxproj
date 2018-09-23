@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		C9A1C41E21571AB0005684E4 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C41D21571AB0005684E4 /* main.cpp */; };
+		C9A1C42721571C0F005684E4 /* priorityqueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C42521571C0F005684E4 /* priorityqueue.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,10 @@
 /* Begin PBXFileReference section */
 		C9A1C41A21571AB0005684E4 /* knapsack2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = knapsack2; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A1C41D21571AB0005684E4 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C9A1C42421571BD2005684E4 /* testdata */ = {isa = PBXFileReference; lastKnownFileType = text; path = testdata; sourceTree = "<group>"; };
+		C9A1C42521571C0F005684E4 /* priorityqueue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = priorityqueue.cpp; sourceTree = "<group>"; };
+		C9A1C42621571C0F005684E4 /* priorityqueue.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = priorityqueue.hpp; sourceTree = "<group>"; };
+		C9A1C42821571DC8005684E4 /* main.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = main.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +63,10 @@
 			isa = PBXGroup;
 			children = (
 				C9A1C41D21571AB0005684E4 /* main.cpp */,
+				C9A1C42421571BD2005684E4 /* testdata */,
+				C9A1C42521571C0F005684E4 /* priorityqueue.cpp */,
+				C9A1C42621571C0F005684E4 /* priorityqueue.hpp */,
+				C9A1C42821571DC8005684E4 /* main.hpp */,
 			);
 			path = knapsack2;
 			sourceTree = "<group>";
@@ -97,7 +106,7 @@
 				};
 			};
 			buildConfigurationList = C9A1C41521571AB0005684E4 /* Build configuration list for PBXProject "knapsack2" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -119,6 +128,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A1C41E21571AB0005684E4 /* main.cpp in Sources */,
+				C9A1C42721571C0F005684E4 /* priorityqueue.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
