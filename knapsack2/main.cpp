@@ -1,5 +1,4 @@
 #include "main.hpp"
-#include "priorityqueue.hpp"
 
 void
 usage(void)
@@ -37,7 +36,16 @@ genfile(uint64_t num, uint64_t weight)
 int
 initpq(pqueue* pq, FILE* fd)
 {
+	pq->front = (node*) calloc(1, sizeof(node));
+	pq->front->i = (item*) calloc(1, sizeof(item));
 	
+	return 0;
+}
+
+int
+steal(pqueue* pq, knapsack* ksack)
+{
+	return 0;
 }
 
 int
@@ -109,6 +117,7 @@ main(int argc, const char* argv[])
 			exit(1);
 		}
 		initpq(pq, fd);
+		steal(pq, joulethief);
 	}
 	free(joulethief);
 	free(pq);

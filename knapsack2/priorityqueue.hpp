@@ -1,4 +1,14 @@
-#include "main.hpp"
+#include <stdint.h>
+#include <stdlib.h>
+
+struct
+item
+{
+	char name[64];
+	uint64_t weight;
+	uint64_t profit;
+	float ratio;
+};
 
 struct
 node
@@ -15,21 +25,5 @@ pqueue
 	item* (*dequeue) (pqueue*);
 };
 
-int
-enqueue(pqueue* pq, item i)
-{
-	return 0;
-}
-
-item*
-dequeue(pqueue* pq)
-{
-	item* ret;
-	if(pq->front == NULL)
-	{
-		return NULL;
-	}
-	ret = pq->front->i;
-	pq->front = pq->front->next;
-	return ret;
-}
+int enqueue(pqueue*, item*);
+item* dequeue(pqueue*);

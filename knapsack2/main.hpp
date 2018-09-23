@@ -1,5 +1,3 @@
-#include <stdint.h>
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -8,12 +6,7 @@
 #include <time.h>
 #include <inttypes.h>
 
-struct item {
-	char name[64];
-	uint64_t weight;
-	uint64_t profit;
-	float ratio;
-};
+#include "priorityqueue.hpp"
 
 struct knapsack {
 	uint64_t capacity;
@@ -26,3 +19,5 @@ struct knapsack {
 void usage(void);
 int genfile(uint64_t, uint64_t);
 uint64_t genrand(void);
+int initpq(pqueue*, FILE*);
+int steal(pqueue*, knapsack*);
