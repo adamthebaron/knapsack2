@@ -6,6 +6,7 @@ enqueue(pqueue* pq, item* i)
 	node *pos, *newitem;
 	
 	pos = pq->front;
+	/*
 	newitem = (node*) calloc(1, sizeof(node));
 	newitem->i = i;
 	newitem->next = NULL;
@@ -13,7 +14,7 @@ enqueue(pqueue* pq, item* i)
 	{
 		pos = pos->next;
 	}
-	
+	*/
 	return 0;
 }
 
@@ -25,5 +26,6 @@ dequeue(pqueue* pq)
 		return NULL;
 	ret = pq->front->i;
 	pq->front = pq->front->next;
+	pq->size--;
 	return ret;
 }
