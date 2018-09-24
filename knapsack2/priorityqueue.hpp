@@ -7,7 +7,7 @@ item
 	char name[64];
 	uint64_t weight;
 	uint64_t profit;
-	float ratio;
+	double ratio;
 };
 
 struct

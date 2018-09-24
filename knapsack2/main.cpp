@@ -52,12 +52,20 @@ initpq(pqueue* pq, FILE* fd)
 	for(uint64_t i = 0; i < pq->size; i++)
 	{
 		fscanf(fd, "%s %" PRIu64 " %" PRIu64, name, &value, &weight);
+		printf("checking item %s %" PRIu64 " %" PRIu64 "\n", name, value, weight);
 		items[i] = (item*) calloc(1, sizeof(item));
 		strcpy(items[i]->name, name);
 		items[i]->profit = value;
 		items[i]->weight = weight;
 		items[i]->ratio = value / weight;
+		memset(name, 0, 64 * sizeof(char));
+		printf("added item %s %" PRIu64 " %" PRIu64 " %f\n", items[i]->name,
+			   items[i]->profit, items[i]->weight, items[i]->ratio);
 	}
+	free(name);
+	for(uint64_t i = 0; i < pq->size; i++)
+		free(items[i]);
+	free(items);
 	return capacity;
 }
 
