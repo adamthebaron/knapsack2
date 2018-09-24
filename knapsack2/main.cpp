@@ -37,7 +37,6 @@ uint64_t
 initpq(pqueue* pq, FILE* fd, item** items)
 {
 	uint64_t value, weight, capacity;
-	node* pos;
 	char* name;
 
 	name = (char*) calloc(64, sizeof(char));
@@ -65,9 +64,6 @@ initpq(pqueue* pq, FILE* fd, item** items)
 	for(uint64_t i = 0; i < pq->size; i++)
 		enqueue(pq, items[i]);
 	free(name);
-	for(uint64_t i = 0; i < pq->size; i++)
-		free(items[i]);
-	free(items);
 	return capacity;
 }
 
@@ -80,16 +76,20 @@ steal(pqueue* pq, knapsack* ksack)
 void
 freedata(item** items, pqueue* pq)
 {
-	node* pos;
+	node *pos, *next;
 	
+	next = NULL;
 	pos = pq->front;
 	for(uint64_t i = 0; i < pq->size; i++)
 		free(items[i]);
 	free(items);
 	while(pos->next != NULL)
 	{
-		
+		next = pos->next;
+		free(pos);
+		pos = next;
 	}
+	return;
 }
 
 int
