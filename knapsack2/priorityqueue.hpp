@@ -21,6 +21,7 @@ struct
 pqueue
 {
 	node* front;
+	uint64_t size;
 	int (*enqueue) (pqueue*, item);
 	item* (*dequeue) (pqueue*);
 };

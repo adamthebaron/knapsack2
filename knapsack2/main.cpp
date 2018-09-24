@@ -33,13 +33,32 @@ genfile(uint64_t num, uint64_t weight)
 	return 0;
 }
 
-int
+uint64_t
 initpq(pqueue* pq, FILE* fd)
 {
+	uint64_t value, weight, capacity;
+	node* pos;
+	item** items;
+	char* name;
+	
+	name = (char*) calloc(64, sizeof(char));
+	items = (item**) calloc(1, sizeof(item*));
+	memset(name, 0, 64 * sizeof(char));
+	value = weight = capacity = 0;
 	pq->front = (node*) calloc(1, sizeof(node));
 	pq->front->i = (item*) calloc(1, sizeof(item));
-	
-	return 0;
+	fscanf(fd, "%" PRIu64 " %" PRIu64, &(pq->size), &capacity);
+	printf("number of items is %" PRIu64 "\n", pq->size);
+	for(uint64_t i = 0; i < pq->size; i++)
+	{
+		fscanf(fd, "%s %" PRIu64 " %" PRIu64, name, &value, &weight);
+		items[i] = (item*) calloc(1, sizeof(item));
+		strcpy(items[i]->name, name);
+		items[i]->profit = value;
+		items[i]->weight = weight;
+		items[i]->ratio = value / weight;
+	}
+	return capacity;
 }
 
 int
@@ -57,23 +76,19 @@ main(int argc, const char* argv[])
 	pqueue* pq;
 	knapsack* joulethief;
 	
-	srand((uint32_t)time(NULL));
 	nflag = wflag = opt = 0;
 	filename = NULL;
 	fd = NULL;
-	if((pq = (pqueue*) calloc(1, sizeof(pqueue))) == NULL)
-	{
-		fprintf(stderr, "error allocating priority queue: %s\n", strerror(errno));
-	}
-	if((joulethief = (knapsack*) calloc(1, sizeof(knapsack))) == NULL)
-	{
-		fprintf(stderr, "error allocating knapsack: %s\n", strerror(errno));
-	}
 	if(argc == 1)
 	{
 		usage();
 		exit(0);
 	}
+	srand((uint32_t)time(NULL));
+	if((pq = (pqueue*) calloc(1, sizeof(pqueue))) == NULL)
+		fprintf(stderr, "error allocating priority queue: %s\n", strerror(errno));
+	if((joulethief = (knapsack*) calloc(1, sizeof(knapsack))) == NULL)
+		fprintf(stderr, "error allocating knapsack: %s\n", strerror(errno));
 	while((opt = getopt(argc, (char* const*)argv, "f:hn:w:")) != -1)
 	{
 		switch(opt)
@@ -108,6 +123,7 @@ main(int argc, const char* argv[])
 			fprintf(stderr, "error writing to test file\n");
 			exit(1);
 		}
+		exit(0);
 	}
 	if(filename != NULL)
 	{
@@ -116,9 +132,10 @@ main(int argc, const char* argv[])
 			fprintf(stderr, "error opening %s\n", filename);
 			exit(1);
 		}
-		initpq(pq, fd);
+		joulethief->capacity = initpq(pq, fd);
 		steal(pq, joulethief);
 	}
+	fclose(fd);
 	free(joulethief);
 	free(pq);
 	exit(0);
