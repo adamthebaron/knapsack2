@@ -34,13 +34,12 @@ genfile(uint64_t num, uint64_t weight)
 }
 
 uint64_t
-initpq(pqueue* pq, FILE* fd)
+initpq(pqueue* pq, FILE* fd, item** items)
 {
 	uint64_t value, weight, capacity;
 	node* pos;
-	item** items;
 	char* name;
-	
+
 	name = (char*) calloc(64, sizeof(char));
 	items = (item**) calloc(1, sizeof(item*));
 	memset(name, 0, 64 * sizeof(char));
@@ -78,6 +77,21 @@ steal(pqueue* pq, knapsack* ksack)
 	return 0;
 }
 
+void
+freedata(item** items, pqueue* pq)
+{
+	node* pos;
+	
+	pos = pq->front;
+	for(uint64_t i = 0; i < pq->size; i++)
+		free(items[i]);
+	free(items);
+	while(pos->next != NULL)
+	{
+		
+	}
+}
+
 int
 main(int argc, const char* argv[])
 {
@@ -85,10 +99,12 @@ main(int argc, const char* argv[])
 	char* filename;
 	FILE* fd;
 	pqueue* pq;
+	item** items;
 	knapsack* joulethief;
 	
 	nflag = wflag = opt = 0;
 	filename = NULL;
+	items = NULL;
 	fd = NULL;
 	if(argc == 1)
 	{
@@ -143,10 +159,11 @@ main(int argc, const char* argv[])
 			fprintf(stderr, "error opening %s\n", filename);
 			exit(1);
 		}
-		joulethief->capacity = initpq(pq, fd);
+		joulethief->capacity = initpq(pq, fd, items);
 		steal(pq, joulethief);
 	}
 	fclose(fd);
+	freedata(items, pq);
 	free(joulethief);
 	free(pq);
 	exit(0);

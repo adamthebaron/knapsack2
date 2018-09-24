@@ -3,18 +3,35 @@
 int
 enqueue(pqueue* pq, item* i)
 {
-	node *pos, *newitem;
+	node *pos, *n;
 	
 	pos = pq->front;
-	/*
-	newitem = (node*) calloc(1, sizeof(node));
-	newitem->i = i;
-	newitem->next = NULL;
-	while(newitem->i->ratio < pos->i->ratio)
+	n = (node*) calloc(1, sizeof(node));
+	n->i = i;
+	n->next = NULL;
+	if(pq->front == NULL)
 	{
-		pos = pos->next;
+		pq->front = n;
+		return 0;
 	}
-	*/
+	while(n->i->ratio < pos->i->ratio)
+	{
+		if(pos->next != NULL)
+		{
+			pos = pos->next;
+		}
+		else
+		{
+			pos->next = n;
+			return 0;
+		}
+	}
+	/* in the case where the ratios are equal,
+	 * prioritize the node with the higher value */
+	if(n->i->ratio == pos->i->ratio)
+	{
+		
+	}
 	return 0;
 }
 
