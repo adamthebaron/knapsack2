@@ -59,9 +59,9 @@ initpq(pqueue* pq, FILE* fd)
 			   items[i].profit, items[i].weight, items[i].ratio);
 	}
 	printf("out of loop pqsize is %" PRIu64 "\n", pq->size);
-	for(uint64_t i = 0; i < pq->size; i++)
+	for(uint64_t i = 0; i < (pq->size); i++)
 	{
-		printf("calling enqueue on item %s\n", items[i].name);
+		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i].name, i, pq->size);
 		enqueue(pq, &items[i]);
 		printf("enqueue called\n");
 	}

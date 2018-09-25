@@ -31,7 +31,6 @@ _enqueue(pqueue* pq, item* i, node* n)
 void enqueue(pqueue* pq, item* i)
 {
 	pq->root = _enqueue(pq, i, pq->root);
-	(pq->size)++;
 	return;
 }
 
