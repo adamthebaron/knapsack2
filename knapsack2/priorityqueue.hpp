@@ -14,17 +14,18 @@ struct
 node
 {
 	item* i;
-	node* next;
+	node *parent, *left, *right;
 };
 
 struct
 pqueue
 {
-	node* front;
+	node* root;
 	uint64_t size;
 	int (*enqueue) (pqueue*, item);
 	item* (*dequeue) (pqueue*);
 };
 
-int enqueue(pqueue*, item*);
+void enqueue(pqueue* pq, item* i);
+node* _enqueue(pqueue* pq, item* i, node* n);
 item* dequeue(pqueue*);

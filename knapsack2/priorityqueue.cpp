@@ -1,48 +1,39 @@
 #include "priorityqueue.hpp"
 
-int
-enqueue(pqueue* pq, item* i)
+node*
+_enqueue(pqueue* pq, item* i, node* n)
 {
-	node *pos, *n;
-	
-	pos = pq->front;
-	n = (node*) calloc(1, sizeof(node));
-	n->i = i;
-	n->next = NULL;
-	if(pq->front == NULL)
+	if(n == NULL)
 	{
-		pq->front = n;
-		return 0;
+		n = (node*) calloc(1, sizeof(node));
+		n->i = i;
+		n->left = n->right = NULL;
+		return n;
 	}
-	while(n->i->ratio < pos->i->ratio)
+	else
 	{
-		if(pos->next != NULL)
-		{
-			pos = pos->next;
-		}
-		else
-		{
-			pos->next = n;
-			return 0;
-		}
+		if(n->i->ratio < i->ratio)
+			n->left = _enqueue(pq, i, n->left);
+		else if(n->i->ratio > i->ratio)
+			n->right = _enqueue(pq, i, n->right);
+		return n;
 	}
-	/* in the case where the ratios are equal,
-	 * prioritize the node with the higher value */
-	if(n->i->ratio == pos->i->ratio)
-	{
-		
-	}
-	return 0;
+}
+
+void enqueue(pqueue* pq, item* i)
+{
+	pq->root = _enqueue(pq, i, pq->root);
+	(pq->size)++;
+	return;
 }
 
 item*
 dequeue(pqueue* pq)
 {
 	item* ret;
-	if(pq->front == NULL)
+	if(pq->root == NULL)
 		return NULL;
-	ret = pq->front->i;
-	pq->front = pq->front->next;
-	pq->size--;
+	ret = pq->root->i;
+	(pq->size)--;
 	return ret;
 }

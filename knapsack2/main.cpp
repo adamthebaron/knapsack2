@@ -77,9 +77,9 @@ void
 freedata(item** items, pqueue* pq)
 {
 	node *pos, *next;
-	
-	next = NULL;
+
 	pos = pq->front;
+	next = pq->front->next;
 	for(uint64_t i = 0; i < pq->size; i++)
 		free(items[i]);
 	free(items);
