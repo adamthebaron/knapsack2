@@ -40,7 +40,7 @@ _enqueue(pqueue* pq, item* i, node* n)
 			}
 			else if(n->i->profit == i->profit)
 			{
-				printf("profits are the same just go to the left\n");
+				printf("profits are the same just go to the left fuck it\n");
 				n->left = _enqueue(pq, i, n->left);
 			}
 		}
@@ -64,7 +64,10 @@ _dequeue(pqueue* pq, node* n)
 	if(n->left != NULL)
 		return _dequeue(pq, n->left);
 	item i;
+	printf("copying item %s\n", n->i->name);
 	memcpy(&i, n->i, sizeof(item));
+	printf("copied %s\n", i.name);
+	printf("freeing node %s\n", i.name);
 	free(n);
 	return i;
 }

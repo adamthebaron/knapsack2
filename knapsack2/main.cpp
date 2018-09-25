@@ -73,6 +73,7 @@ initpq(pqueue* pq, FILE* fd)
 		printf("enqueue called\n");
 	}
 	free(name);
+	printf("freed name\n");
 	return capacity;
 }
 
@@ -194,8 +195,11 @@ main(int argc, const char* argv[])
 		steal(pq, joulethief);
 	}
 	fclose(fd);
+	printf("freeing bst\n");
 	freedata(pq);
+	printf("freeing knapsack\n");
 	free(joulethief);
+	printf("freeing pq\n");
 	free(pq);
 	exit(0);
 }
