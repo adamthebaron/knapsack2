@@ -13,12 +13,7 @@ item
 	double ratio;
 };
 
-item nullitem {
-	/* name */ "null item",
-	/* weight */ 0,
-	/* profit */ 0,
-	/* ratio */ 0
-};
+extern item nullitem;
 
 struct
 node

@@ -5,6 +5,14 @@
 
 #include "priorityqueue.hpp"
 
+item nullitem {
+	/* name */ "null item",
+	/* weight */ 0,
+	/* profit */ 0,
+	/* ratio */ 0
+};
+
+
 struct knapsack {
 	uint64_t capacity;
 	uint64_t sol_item_num;
