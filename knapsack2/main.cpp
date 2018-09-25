@@ -79,21 +79,26 @@ initpq(pqueue* pq, FILE* fd)
 void
 steal(pqueue* pq, knapsack* ksack)
 {
-	item* i;
+	item i;
 	
-	i = NULL;
+	i = nullitem;
 	while(ksack->capacity >= 0)
 	{
 		i = dequeue(pq);
-		if(i->weight < ksack->capacity)
+		if(!strcmp(i.name, nullitem.name))
+		{
+			printf("no more items to check, you got everything\n");
+			return;
+		}
+		if(i.weight < ksack->capacity)
 		{
 			printf("adding item %s %" PRIu64 " %" PRIu64 "\n",
-				   i->name, i->profit, i->weight);
+				   i.name, i.profit, i.weight);
 			ksack->sol_items[ksack->sol_item_num] = i;
 			ksack->sol_item_num++;
-			ksack->sol_profit += i->profit;
-			ksack->sol_weight += i->weight;
-			ksack->capacity -= i->weight;
+			ksack->sol_profit += i.profit;
+			ksack->sol_weight += i.weight;
+			ksack->capacity -= i.weight;
 		}
 	}
 	writesolfile(ksack);

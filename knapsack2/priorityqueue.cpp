@@ -54,16 +54,23 @@ void enqueue(pqueue* pq, item* i)
 	return;
 }
 
-item*
+item
 _dequeue(pqueue* pq, node* n)
 {
-	
-	return NULL;
+	if(n == NULL)
+		return nullitem;
+	if(n->right != NULL)
+		return _dequeue(pq, n->right);
+	if(n->left != NULL)
+		return _dequeue(pq, n->left);
+	item i;
+	memcpy(&i, n->i, sizeof(item));
+	free(n);
+	return i;
 }
 
-item*
-dequeue(pqueue* pqueue)
+item
+dequeue(pqueue* pq)
 {
-	
-	return NULL;
+	return _dequeue(pq, pq->root);
 }

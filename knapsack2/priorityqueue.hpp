@@ -13,6 +13,13 @@ item
 	double ratio;
 };
 
+item nullitem {
+	/* name */ "null item",
+	/* weight */ 0,
+	/* profit */ 0,
+	/* ratio */ 0
+};
+
 struct
 node
 {
@@ -31,5 +38,5 @@ pqueue
 
 void enqueue(pqueue* pq, item* i);
 node* _enqueue(pqueue* pq, item* i, node* n);
-item* _dequeue(pqueue* pq, node* n);
-item* dequeue(pqueue*);
+item _dequeue(pqueue* pq, node* n);
+item dequeue(pqueue*);
