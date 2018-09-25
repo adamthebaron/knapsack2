@@ -18,7 +18,7 @@ genfile(uint64_t num, uint64_t weight)
 {
 	const char* filename = "./testfile";
 	FILE* fd;
-	
+
 	if((fd = fopen(filename, "w")) == NULL)
 	{
 		fprintf(stderr, "error creating test file: %s\n", strerror(errno));
@@ -34,33 +34,37 @@ genfile(uint64_t num, uint64_t weight)
 }
 
 uint64_t
-initpq(pqueue* pq, FILE* fd, item** items)
+initpq(pqueue* pq, FILE* fd)
 {
 	uint64_t value, weight, capacity;
 	char* name;
 
 	name = (char*) calloc(64, sizeof(char));
-	items = (item**) calloc(1, sizeof(item*));
 	memset(name, 0, 64 * sizeof(char));
 	value = weight = capacity = 0;
 	fscanf(fd, "%" PRIu64 " %" PRIu64, &(pq->size), &capacity);
 	printf("number of items is %" PRIu64 "\n", pq->size);
+	item items[pq->size];
 	for(uint64_t i = 0; i < pq->size; i++)
 	{
 		fscanf(fd, "%s %" PRIu64 " %" PRIu64, name, &value, &weight);
 		printf("checking item %s %" PRIu64 " %" PRIu64 "\n", name, value, weight);
-		items[i] = (item*) calloc(1, sizeof(item));
-		strcpy(items[i]->name, name);
-		items[i]->profit = value;
-		items[i]->weight = weight;
+		strcpy(items[i].name, name);
+		items[i].profit = value;
+		items[i].weight = weight;
 		/* should this be a cast? */
-		items[i]->ratio = (double) value / (double) weight;
+		items[i].ratio = (double) value / (double) weight;
 		memset(name, 0, 64 * sizeof(char));
-		printf("added item %s %" PRIu64 " %" PRIu64 " %f\n", items[i]->name,
-			   items[i]->profit, items[i]->weight, items[i]->ratio);
+		printf("added item %s %" PRIu64 " %" PRIu64 " %f\n", items[i].name,
+			   items[i].profit, items[i].weight, items[i].ratio);
 	}
+	printf("out of loop pqsize is %" PRIu64 "\n", pq->size);
 	for(uint64_t i = 0; i < pq->size; i++)
-		enqueue(pq, items[i]);
+	{
+		printf("calling enqueue on item %s\n", items[i].name);
+		enqueue(pq, &items[i]);
+		printf("enqueue called\n");
+	}
 	free(name);
 	return capacity;
 }
@@ -76,16 +80,15 @@ freetree(node* n)
 {
 	if(n == NULL)
 		return;
+	printf("freeing node with data: %s %" PRIu64 " %" PRIu64 "\n",
+		   n->i->name, n->i->profit, n->i->weight);
 	freetree(n->left);
 	freetree(n->right);
 }
 
 void
-freedata(item** items, pqueue* pq)
+freedata(pqueue* pq)
 {
-	for(uint64_t i = 0; i < pq->size; i++)
-		free(items[i]);
-	free(items);
 	freetree(pq->root);
 	return;
 }
@@ -97,12 +100,10 @@ main(int argc, const char* argv[])
 	char* filename;
 	FILE* fd;
 	pqueue* pq;
-	item** items;
 	knapsack* joulethief;
 	
 	nflag = wflag = opt = 0;
 	filename = NULL;
-	items = NULL;
 	fd = NULL;
 	if(argc == 1)
 	{
@@ -112,8 +113,10 @@ main(int argc, const char* argv[])
 	srand((uint32_t)time(NULL));
 	if((pq = (pqueue*) calloc(1, sizeof(pqueue))) == NULL)
 		fprintf(stderr, "error allocating priority queue: %s\n", strerror(errno));
+	memset(pq, 0, sizeof(pqueue));
 	if((joulethief = (knapsack*) calloc(1, sizeof(knapsack))) == NULL)
 		fprintf(stderr, "error allocating knapsack: %s\n", strerror(errno));
+	memset(joulethief, 0, sizeof(knapsack));
 	while((opt = getopt(argc, (char* const*)argv, "f:hn:w:")) != -1)
 	{
 		switch(opt)
@@ -157,11 +160,11 @@ main(int argc, const char* argv[])
 			fprintf(stderr, "error opening %s\n", filename);
 			exit(1);
 		}
-		joulethief->capacity = initpq(pq, fd, items);
+		joulethief->capacity = initpq(pq, fd);
 		steal(pq, joulethief);
 	}
 	fclose(fd);
-	freedata(items, pq);
+	freedata(pq);
 	free(joulethief);
 	free(pq);
 	exit(0);
