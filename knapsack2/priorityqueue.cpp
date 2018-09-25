@@ -24,6 +24,26 @@ _enqueue(pqueue* pq, item* i, node* n)
 			printf("%f is greater than %f, going right\n", n->i->ratio, i->ratio);
 			n->right = _enqueue(pq, i, n->right);
 		}
+		else if(n->i->ratio == i->ratio)
+		{
+			printf("%f is equal to %f, checking profit\n", n->i->ratio, i->ratio);
+			printf("profits are %" PRIu64 " and %" PRIu64 "\n", n->i->profit, i->profit);
+			if(n->i->profit < i->profit)
+			{
+				printf("%" PRIu64 "is less than %" PRIu64 ", going left\n", n->i->profit, i->profit);
+				n->left = _enqueue(pq, i, n->left);
+			}
+			else if(n->i->profit > i->profit)
+			{
+				printf("%" PRIu64 "is greater than %" PRIu64 ", going right\n", n->i->profit, i->profit);
+				n->right = _enqueue(pq, i, n->right);
+			}
+			else if(n->i->profit == i->profit)
+			{
+				printf("profits are the same just go to the left\n");
+				n->left = _enqueue(pq, i, n->left);
+			}
+		}
 		return n;
 	}
 }
@@ -35,12 +55,15 @@ void enqueue(pqueue* pq, item* i)
 }
 
 item*
-dequeue(pqueue* pq)
+_dequeue(pqueue* pq, node* n)
 {
-	item* ret;
-	if(pq->root == NULL)
-		return NULL;
-	ret = pq->root->i;
-	(pq->size)--;
-	return ret;
+	
+	return NULL;
+}
+
+item*
+dequeue(pqueue* pqueue)
+{
+	
+	return NULL;
 }
