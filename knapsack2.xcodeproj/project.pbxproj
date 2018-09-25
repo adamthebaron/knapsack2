@@ -11,6 +11,18 @@
 		C9A1C42721571C0F005684E4 /* priorityqueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9A1C42521571C0F005684E4 /* priorityqueue.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		C9A1C429215AEB5C005684E4 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.llvm.clang.1_0;
+			fileType = sourcecode.c;
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# Type a script or drag a script file from your workspace to insert its path.\n";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		C9A1C41821571AB0005684E4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -83,6 +95,7 @@
 				C9A1C41821571AB0005684E4 /* CopyFiles */,
 			);
 			buildRules = (
+				C9A1C429215AEB5C005684E4 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -249,7 +262,9 @@
 		C9A1C42221571AB0005684E4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -257,7 +272,9 @@
 		C9A1C42321571AB0005684E4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_STYLE = Automatic;
+				GCC_INPUT_FILETYPE = sourcecode.c.c;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

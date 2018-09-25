@@ -41,39 +41,45 @@ writesolfile(knapsack* ksack)
 }
 
 uint64_t
-initpq(pqueue* pq, FILE* fd)
+initpq(pqueue* pq, FILE* fd, item** items)
 {
 	uint64_t value, weight, capacity;
-	char* name;
+	char name[64];
 
-	name = (char*) calloc(64, sizeof(char));
-	memset(name, 0, 64 * sizeof(char));
 	value = weight = capacity = 0;
 	fscanf(fd, "%" PRIu64 " %" PRIu64, &(pq->size), &capacity);
 	printf("number of items is %" PRIu64 "\n", pq->size);
-	item items[pq->size];
+	items = calloc(1, sizeof(item*));
+	printf("allocated space on stack for items\n");
 	for(uint64_t i = 0; i < pq->size; i++)
 	{
-		fscanf(fd, "%s %" PRIu64 " %" PRIu64, name, &value, &weight);
-		printf("checking item %s %" PRIu64 " %" PRIu64 "\n", name, value, weight);
-		strcpy(items[i].name, name);
-		items[i].profit = value;
-		items[i].weight = weight;
+		if((items[i] = calloc(1, sizeof(item))) == NULL)
+			fprintf(stderr, "error allocating space for item %" PRIu64 "\n", i);
+		fscanf(fd, "%s %" PRIu64 " %" PRIu64, &name, &value, &weight);
+		//printf("checking item %s %" PRIu64 " %" PRIu64 "\n", name, value, weight);
+		strcpy(items[i]->name, name);
+		//printf("copying name %s\n", items[i]->name);
+		items[i]->profit = value;
+		//printf("copying value %" PRIu64 "\n", items[i]->profit);
+		items[i]->weight = weight;
+		//printf("copying weight %" PRIu64 "\n", items[i]->weight);
 		/* should this be a cast? */
-		items[i].ratio = (double) value / (double) weight;
-		memset(name, 0, 64 * sizeof(char));
-		printf("added item %s %" PRIu64 " %" PRIu64 " %f\n", items[i].name,
-			   items[i].profit, items[i].weight, items[i].ratio);
+		items[i]->ratio = (double) value / (double) weight;
+		//printf("copying ratio %f\n", items[i]->ratio);
+		//printf("clearing name memory\n");
+		memset(&name, 0, 64 * sizeof(char));
+		//printf("cleared\n");
+		//printf("added item %s %" PRIu64 " %" PRIu64 " %f\n", items[i]->name,
+	//		   items[i]->profit, items[i]->weight, items[i]->ratio);
 	}
+	printf("added 10000 items\n");
 	printf("out of loop pqsize is %" PRIu64 "\n", pq->size);
 	for(uint64_t i = 0; i < pq->size; i++)
 	{
-		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i].name, i, pq->size);
-		enqueue(pq, &items[i]);
+		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i]->name, i, pq->size);
+		enqueue(pq, items[i]);
 		printf("enqueue called\n");
 	}
-	free(name);
-	printf("freed name\n");
 	return capacity;
 }
 
@@ -132,20 +138,22 @@ main(int argc, const char* argv[])
 	FILE* fd;
 	pqueue* pq;
 	knapsack* joulethief;
+	item** items;
 	
 	nflag = wflag = opt = 0;
 	filename = NULL;
 	fd = NULL;
+	items = NULL;
 	if(argc == 1)
 	{
 		usage();
 		exit(0);
 	}
 	srand((uint32_t)time(NULL));
-	if((pq = (pqueue*) calloc(1, sizeof(pqueue))) == NULL)
+	if((pq = calloc(1, sizeof(pqueue))) == NULL)
 		fprintf(stderr, "error allocating priority queue: %s\n", strerror(errno));
 	memset(pq, 0, sizeof(pqueue));
-	if((joulethief = (knapsack*) calloc(1, sizeof(knapsack))) == NULL)
+	if((joulethief = calloc(1, sizeof(knapsack))) == NULL)
 		fprintf(stderr, "error allocating knapsack: %s\n", strerror(errno));
 	memset(joulethief, 0, sizeof(knapsack));
 	while((opt = getopt(argc, (char* const*)argv, "f:hn:w:")) != -1)
@@ -191,10 +199,14 @@ main(int argc, const char* argv[])
 			fprintf(stderr, "error opening %s\n", filename);
 			exit(1);
 		}
-		joulethief->capacity = initpq(pq, fd);
+		joulethief->capacity = initpq(pq, fd, items);
 		steal(pq, joulethief);
 	}
 	fclose(fd);
+	printf("freeing item space\n");
+	for(uint64_t i = 0; i < pq->size; i++)
+		free(items[i]);
+	free(items);
 	printf("freeing bst\n");
 	freedata(pq);
 	printf("freeing knapsack\n");

@@ -6,7 +6,7 @@ _enqueue(pqueue* pq, item* i, node* n)
 	if(n == NULL)
 	{
 		printf("found null leaf, going here\n");
-		n = (node*) calloc(1, sizeof(node));
+		n = calloc(1, sizeof(node));
 		memset(n, 0, sizeof(node));
 		n->i = i;
 		n->left = n->right = NULL;
