@@ -33,6 +33,13 @@ genfile(uint64_t num, uint64_t weight)
 	return 0;
 }
 
+void
+writesolfile(knapsack* ksack)
+{
+	
+	return;
+}
+
 uint64_t
 initpq(pqueue* pq, FILE* fd)
 {
@@ -59,7 +66,7 @@ initpq(pqueue* pq, FILE* fd)
 			   items[i].profit, items[i].weight, items[i].ratio);
 	}
 	printf("out of loop pqsize is %" PRIu64 "\n", pq->size);
-	for(uint64_t i = 0; i < (pq->size); i++)
+	for(uint64_t i = 0; i < pq->size; i++)
 	{
 		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i].name, i, pq->size);
 		enqueue(pq, &items[i]);
@@ -69,10 +76,28 @@ initpq(pqueue* pq, FILE* fd)
 	return capacity;
 }
 
-int
+void
 steal(pqueue* pq, knapsack* ksack)
 {
-	return 0;
+	item* i;
+	
+	i = NULL;
+	while(ksack->capacity >= 0)
+	{
+		i = dequeue(pq);
+		if(i->weight < ksack->capacity)
+		{
+			printf("adding item %s %" PRIu64 " %" PRIu64 "\n",
+				   i->name, i->profit, i->weight);
+			ksack->sol_items[ksack->sol_item_num] = i;
+			ksack->sol_item_num++;
+			ksack->sol_profit += i->profit;
+			ksack->sol_weight += i->weight;
+			ksack->capacity -= i->weight;
+		}
+	}
+	writesolfile(ksack);
+	return;
 }
 
 void

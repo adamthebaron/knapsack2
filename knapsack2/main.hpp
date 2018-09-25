@@ -16,6 +16,7 @@ struct knapsack {
 
 void usage(void);
 int genfile(uint64_t, uint64_t);
+void writesolfile(knapsack*);
 uint64_t genrand(void);
 uint64_t initpq(pqueue*, FILE*);
-int steal(pqueue*, knapsack*);
+void steal(pqueue*, knapsack*);
