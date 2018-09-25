@@ -1,13 +1,13 @@
-#include "priorityqueue.hpp"
+#include "priorityqueue.h"
 
-node*
-_enqueue(pqueue* pq, item* i, node* n)
+struct node*
+_enqueue(struct pqueue* pq, struct item* i, struct node* n)
 {
 	if(n == NULL)
 	{
 		printf("found null leaf, going here\n");
-		n = calloc(1, sizeof(node));
-		memset(n, 0, sizeof(node));
+		n = calloc(1, sizeof(struct node));
+		memset(n, 0, sizeof(struct node));
 		n->i = i;
 		n->left = n->right = NULL;
 		return n;
@@ -48,14 +48,14 @@ _enqueue(pqueue* pq, item* i, node* n)
 	}
 }
 
-void enqueue(pqueue* pq, item* i)
+void enqueue(struct pqueue* pq, struct item* i)
 {
 	pq->root = _enqueue(pq, i, pq->root);
 	return;
 }
 
-item
-_dequeue(pqueue* pq, node* n)
+struct item
+_dequeue(struct pqueue* pq, struct node* n)
 {
 	if(n == NULL)
 		return nullitem;
@@ -63,17 +63,17 @@ _dequeue(pqueue* pq, node* n)
 		return _dequeue(pq, n->right);
 	if(n->left != NULL)
 		return _dequeue(pq, n->left);
-	item i;
+	struct item i;
 	printf("copying item %s\n", n->i->name);
-	memcpy(&i, n->i, sizeof(item));
+	memcpy(&i, n->i, sizeof(struct item));
 	printf("copied %s\n", i.name);
 	printf("freeing node %s\n", i.name);
 	free(n);
 	return i;
 }
 
-item
-dequeue(pqueue* pq)
+struct item
+dequeue(struct pqueue* pq)
 {
 	return _dequeue(pq, pq->root);
 }

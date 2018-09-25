@@ -3,9 +3,9 @@
 #include <errno.h>
 #include <time.h>
 
-#include "priorityqueue.hpp"
+#include "priorityqueue.h"
 
-item nullitem {
+struct item nullitem = {
 	/* name */ "null item",
 	/* weight */ 0,
 	/* profit */ 0,
@@ -18,12 +18,12 @@ struct knapsack {
 	uint64_t sol_item_num;
 	uint64_t sol_weight;
 	uint64_t sol_profit;
-	item sol_items[1024];
+	struct item sol_items[1024];
 };
 
 void usage(void);
 int genfile(uint64_t, uint64_t);
-void writesolfile(knapsack*);
-uint64_t genrand(void);
-uint64_t initpq(pqueue*, FILE*);
-void steal(pqueue*, knapsack*);
+void writesolfile(struct knapsack*);
+uint64_t genrand(uint64_t);
+uint64_t initpq(struct pqueue*, FILE*, struct item**);
+void steal(struct pqueue*, struct knapsack*);

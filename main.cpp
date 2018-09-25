@@ -1,4 +1,4 @@
-#include "main.hpp"
+#include "main.h"
 
 void
 usage(void)
@@ -34,14 +34,14 @@ genfile(uint64_t num, uint64_t weight)
 }
 
 void
-writesolfile(knapsack* ksack)
+writesolfile(struct knapsack* ksack)
 {
 	
 	return;
 }
 
 uint64_t
-initpq(pqueue* pq, FILE* fd, item** items)
+initpq(struct pqueue* pq, FILE* fd, struct item** items)
 {
 	uint64_t value, weight, capacity;
 	char name[64];
@@ -49,11 +49,11 @@ initpq(pqueue* pq, FILE* fd, item** items)
 	value = weight = capacity = 0;
 	fscanf(fd, "%" PRIu64 " %" PRIu64, &(pq->size), &capacity);
 	printf("number of items is %" PRIu64 "\n", pq->size);
-	items = calloc(1, sizeof(item*));
+	items = calloc(1, sizeof(struct item*));
 	printf("allocated space on stack for items\n");
 	for(uint64_t i = 0; i < pq->size; i++)
 	{
-		if((items[i] = calloc(1, sizeof(item))) == NULL)
+		if((items[i] = calloc(1, sizeof(struct item))) == NULL)
 			fprintf(stderr, "error allocating space for item %" PRIu64 "\n", i);
 		fscanf(fd, "%s %" PRIu64 " %" PRIu64, &name, &value, &weight);
 		//printf("checking item %s %" PRIu64 " %" PRIu64 "\n", name, value, weight);
@@ -84,9 +84,9 @@ initpq(pqueue* pq, FILE* fd, item** items)
 }
 
 void
-steal(pqueue* pq, knapsack* ksack)
+steal(struct pqueue* pq, struct knapsack* ksack)
 {
-	item i;
+	struct item i;
 	
 	i = nullitem;
 	while(ksack->capacity >= 0)
@@ -113,7 +113,7 @@ steal(pqueue* pq, knapsack* ksack)
 }
 
 void
-freetree(node* n)
+freetree(struct node* n)
 {
 	if(n == NULL)
 		return;
@@ -124,7 +124,7 @@ freetree(node* n)
 }
 
 void
-freedata(pqueue* pq)
+freedata(struct pqueue* pq)
 {
 	freetree(pq->root);
 	return;
@@ -136,9 +136,9 @@ main(int argc, const char* argv[])
 	uint64_t nflag, wflag, opt;
 	char* filename;
 	FILE* fd;
-	pqueue* pq;
-	knapsack* joulethief;
-	item** items;
+	struct pqueue* pq;
+	struct knapsack* joulethief;
+	struct item** items;
 	
 	nflag = wflag = opt = 0;
 	filename = NULL;
@@ -150,12 +150,12 @@ main(int argc, const char* argv[])
 		exit(0);
 	}
 	srand((uint32_t)time(NULL));
-	if((pq = calloc(1, sizeof(pqueue))) == NULL)
+	if((pq = calloc(1, sizeof(struct pqueue))) == NULL)
 		fprintf(stderr, "error allocating priority queue: %s\n", strerror(errno));
-	memset(pq, 0, sizeof(pqueue));
-	if((joulethief = calloc(1, sizeof(knapsack))) == NULL)
+	memset(pq, 0, sizeof(struct pqueue));
+	if((joulethief = calloc(1, sizeof(struct knapsack))) == NULL)
 		fprintf(stderr, "error allocating knapsack: %s\n", strerror(errno));
-	memset(joulethief, 0, sizeof(knapsack));
+	memset(joulethief, 0, sizeof(struct knapsack));
 	while((opt = getopt(argc, (char* const*)argv, "f:hn:w:")) != -1)
 	{
 		switch(opt)
