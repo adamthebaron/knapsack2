@@ -43,8 +43,6 @@ initpq(pqueue* pq, FILE* fd, item** items)
 	items = (item**) calloc(1, sizeof(item*));
 	memset(name, 0, 64 * sizeof(char));
 	value = weight = capacity = 0;
-	pq->front = (node*) calloc(1, sizeof(node));
-	pq->front->i = (item*) calloc(1, sizeof(item));
 	fscanf(fd, "%" PRIu64 " %" PRIu64, &(pq->size), &capacity);
 	printf("number of items is %" PRIu64 "\n", pq->size);
 	for(uint64_t i = 0; i < pq->size; i++)
@@ -74,21 +72,21 @@ steal(pqueue* pq, knapsack* ksack)
 }
 
 void
+freetree(node* n)
+{
+	if(n == NULL)
+		return;
+	freetree(n->left);
+	freetree(n->right);
+}
+
+void
 freedata(item** items, pqueue* pq)
 {
-	node *pos, *next;
-
-	pos = pq->front;
-	next = pq->front->next;
 	for(uint64_t i = 0; i < pq->size; i++)
 		free(items[i]);
 	free(items);
-	while(pos->next != NULL)
-	{
-		next = pos->next;
-		free(pos);
-		pos = next;
-	}
+	freetree(pq->root);
 	return;
 }
 
