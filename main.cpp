@@ -1,4 +1,4 @@
-#include "main.h"
+#include "main.hpp"
 
 void
 usage(void)
@@ -17,18 +17,12 @@ int
 genfile(uint64_t num, uint64_t weight)
 {
 	const char* filename = "./testfile";
-	FILE* fd;
+	std::ofstream fd;
 
-	if((fd = fopen(filename, "w")) == NULL)
-	{
-		fprintf(stderr, "error creating test file: %s\n", strerror(errno));
-		exit(1);
-	}
-	if(fprintf(fd, "%" PRIu64 " %" PRIu64 "\n", num, weight) < 0)
-		return 1;
+	fd.open(filename, std::ios::out);
+	fd << num << " " << weight << std::endl;
 	for(uint64_t i = 0; i < num; i++)
-		if(fprintf(fd, "item%" PRIu64 " %" PRIu64 " %" PRIu64 "\n", i,
-				   genrand(num), genrand(num)) < 0)
+		fd << "item" << i << " " << genrand(num) << " " << genrand(num) << std::endl;
 			return 1;
 	return 0;
 }
@@ -41,43 +35,35 @@ writesolfile(struct knapsack* ksack)
 }
 
 uint64_t
-initpq(struct pqueue* pq, FILE* fd, struct item** items)
+initpq(pqueue* pq, std::ifstream* fd)
 {
-	uint64_t value, weight, capacity;
+	uint64_t value, weight, capacity, size;
 	char name[64];
+	item** items;
 
-	value = weight = capacity = 0;
-	fscanf(fd, "%" PRIu64 " %" PRIu64, &(pq->size), &capacity);
-	printf("number of items is %" PRIu64 "\n", pq->size);
-	items = calloc(1, sizeof(struct item*));
+	value = weight = capacity = size = 0;
+	fd->getline(size, capacity);
+	pq->setSize(size);
+	printf("number of items is %" PRIu64 "\n", pq->getSize());
+	items = new item*;
 	printf("allocated space on stack for items\n");
-	for(uint64_t i = 0; i < pq->size; i++)
+	for(uint64_t i = 0; i < pq->getSize(); i++)
 	{
-		if((items[i] = calloc(1, sizeof(struct item))) == NULL)
-			fprintf(stderr, "error allocating space for item %" PRIu64 "\n", i);
-		fscanf(fd, "%s %" PRIu64 " %" PRIu64, &name, &value, &weight);
-		//printf("checking item %s %" PRIu64 " %" PRIu64 "\n", name, value, weight);
+		items[i] = new item();
+		fd->getline(name, value, weight);
 		strcpy(items[i]->name, name);
-		//printf("copying name %s\n", items[i]->name);
 		items[i]->profit = value;
-		//printf("copying value %" PRIu64 "\n", items[i]->profit);
 		items[i]->weight = weight;
-		//printf("copying weight %" PRIu64 "\n", items[i]->weight);
 		/* should this be a cast? */
 		items[i]->ratio = (double) value / (double) weight;
-		//printf("copying ratio %f\n", items[i]->ratio);
-		//printf("clearing name memory\n");
 		memset(&name, 0, 64 * sizeof(char));
-		//printf("cleared\n");
-		//printf("added item %s %" PRIu64 " %" PRIu64 " %f\n", items[i]->name,
-	//		   items[i]->profit, items[i]->weight, items[i]->ratio);
 	}
 	printf("added 10000 items\n");
-	printf("out of loop pqsize is %" PRIu64 "\n", pq->size);
-	for(uint64_t i = 0; i < pq->size; i++)
+	printf("out of loop pqsize is %" PRIu64 "\n", pq->getSize());
+	for(uint64_t i = 0; i < pq->getSize(); i++)
 	{
-		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i]->name, i, pq->size);
-		enqueue(pq, items[i]);
+		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i]->name, i, pq->getSize());
+		pq->enqueue(items[i]);
 		printf("enqueue called\n");
 	}
 	return capacity;
@@ -91,7 +77,7 @@ steal(struct pqueue* pq, struct knapsack* ksack)
 	i = nullitem;
 	while(ksack->capacity >= 0)
 	{
-		i = dequeue(pq);
+		i = pq->dequeue();
 		if(!strcmp(i.name, nullitem.name))
 		{
 			printf("no more items to check, you got everything\n");
@@ -123,26 +109,25 @@ freetree(struct node* n)
 	freetree(n->right);
 }
 
-void
+/*void
 freedata(struct pqueue* pq)
 {
 	freetree(pq->root);
 	return;
-}
+}*/
 
 int
 main(int argc, const char* argv[])
 {
 	uint64_t nflag, wflag, opt;
-	char* filename;
-	FILE* fd;
+	std::string filename;
+	std::ofstream fd;
 	struct pqueue* pq;
 	struct knapsack* joulethief;
 	struct item** items;
 	
 	nflag = wflag = opt = 0;
-	filename = NULL;
-	fd = NULL;
+	filename = "";
 	items = NULL;
 	if(argc == 1)
 	{
@@ -150,12 +135,8 @@ main(int argc, const char* argv[])
 		exit(0);
 	}
 	srand((uint32_t)time(NULL));
-	if((pq = calloc(1, sizeof(struct pqueue))) == NULL)
-		fprintf(stderr, "error allocating priority queue: %s\n", strerror(errno));
-	memset(pq, 0, sizeof(struct pqueue));
-	if((joulethief = calloc(1, sizeof(struct knapsack))) == NULL)
-		fprintf(stderr, "error allocating knapsack: %s\n", strerror(errno));
-	memset(joulethief, 0, sizeof(struct knapsack));
+	pq = new pqueue();
+	joulethief = new knapsack();
 	while((opt = getopt(argc, (char* const*)argv, "f:hn:w:")) != -1)
 	{
 		switch(opt)
@@ -180,38 +161,34 @@ main(int argc, const char* argv[])
 	argv += optind;
 	if((nflag && !wflag) || (!nflag && wflag))
 	{
-		fprintf(stderr, "specify both a number and weight to generate a file\n");
+		std::cerr <<  "specify both a number and weight to generate a file" << std::endl;
 		exit(1);
 	}
 	if(nflag && wflag)
 	{
 		if(genfile(nflag, wflag))
 		{
-			fprintf(stderr, "error writing to test file\n");
+			std::cerr << "error writing test file" << std::endl;
 			exit(1);
 		}
 		exit(0);
 	}
-	if(filename != NULL)
+	if(filename != "")
 	{
-		if((fd = fopen(filename, "r")) == NULL)
-		{
-			fprintf(stderr, "error opening %s\n", filename);
-			exit(1);
-		}
-		joulethief->capacity = initpq(pq, fd, items);
+		fd.open(filename, std::ios::in);
+		joulethief->capacity = initpq(pq, &fd, items);
 		steal(pq, joulethief);
 	}
-	fclose(fd);
+	if(fd.is_open())
+		fd.close();
 	printf("freeing item space\n");
-	for(uint64_t i = 0; i < pq->size; i++)
+	for(uint64_t i = 0; i < pq->getSize(); i++)
 		free(items[i]);
 	free(items);
 	printf("freeing bst\n");
-	freedata(pq);
 	printf("freeing knapsack\n");
 	free(joulethief);
 	printf("freeing pq\n");
-	free(pq);
+	delete pq;
 	exit(0);
 }

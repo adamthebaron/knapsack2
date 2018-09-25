@@ -22,16 +22,18 @@ node
 	struct node *parent, *left, *right;
 };
 
-struct
+class
 pqueue
 {
-	struct node* root;
-	uint64_t size;
-	//void (*enqueue) (pqueue*, item*);
-	//item* (*dequeue) (pqueue*);
+	private:
+		struct node* root;
+		uint64_t size;
+		node* _enqueue(item* i, node* n);
+		item _dequeue(node* n);
+	
+	public:
+		void enqueue(item* i);
+		item dequeue(void);
+		void setSize(uint64_t);
+		uint64_t getSize(void);
 };
-
-void enqueue(struct pqueue*, struct item*);
-struct node* _enqueue(struct pqueue*, struct item* i, struct node* n);
-struct item _dequeue(struct pqueue* pq, struct node* n);
-struct item dequeue(struct pqueue*);

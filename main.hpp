@@ -2,8 +2,10 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <time.h>
+#include <iostream>
+#include <fstream>
 
-#include "priorityqueue.h"
+#include "priorityqueue.hpp"
 
 struct item nullitem = {
 	/* name */ "null item",
@@ -25,5 +27,5 @@ void usage(void);
 int genfile(uint64_t, uint64_t);
 void writesolfile(struct knapsack*);
 uint64_t genrand(uint64_t);
-uint64_t initpq(struct pqueue*, FILE*, struct item**);
+uint64_t initpq(struct pqueue*, std::ifstream*, struct item**);
 void steal(struct pqueue*, struct knapsack*);
