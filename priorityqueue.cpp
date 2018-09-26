@@ -19,21 +19,20 @@ pqueue::_enqueue(item* i, node* n)
 	{
 		printf("found null leaf, going here\n");
 		n = new node();
-		memset(n, 0, sizeof(struct node));
 		n->i = i;
 		n->left = n->right = NULL;
 		return n;
 	}
 	else
 	{
-		if(n->i->ratio < i->ratio)
+		if(i->ratio < n->i->ratio)
 		{
-			printf("%f is less than %f, going left\n", n->i->ratio, i->ratio);
+			printf("%f is less than %f, going left\n", i->ratio, n->i->ratio);
 			n->left = this->_enqueue(i, n->left);
 		}
-		else if(n->i->ratio > i->ratio)
+		else if(i->ratio > n->i->ratio)
 		{
-			printf("%f is greater than %f, going right\n", n->i->ratio, i->ratio);
+			printf("%f is greater than %f, going right\n", i->ratio, n->i->ratio);
 			n->right = this->_enqueue(i, n->right);
 		}
 		else if(n->i->ratio == i->ratio)
