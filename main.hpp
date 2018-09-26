@@ -18,7 +18,7 @@ struct item nullitem = {
 
 
 struct knapsack {
-	uint64_t capacity;
+	int64_t capacity;
 	uint64_t sol_item_num;
 	uint64_t sol_weight;
 	uint64_t sol_profit;

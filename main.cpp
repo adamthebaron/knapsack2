@@ -81,6 +81,7 @@ steal(struct pqueue* pq, struct knapsack* ksack)
 	while(ksack->capacity >= 0)
 	{
 		i = pq->dequeue();
+		/*//std::cout << "got item " << i.name << " " << i.profit << " " << i.weight << " " << i.ratio << std::endl;
 		if(!strcmp(i.name, nullitem.name))
 		{
 			printf("no more items to check, you got everything\n");
@@ -95,7 +96,15 @@ steal(struct pqueue* pq, struct knapsack* ksack)
 			ksack->sol_profit += i.profit;
 			ksack->sol_weight += i.weight;
 			ksack->capacity -= i.weight;
-		}
+		}*/
+		printf("adding item %s %" PRIu64 " %" PRIu64 "\n",
+				   i.name, i.profit, i.weight);
+			ksack->sol_items[ksack->sol_item_num] = i;
+			ksack->sol_item_num++;
+			ksack->sol_profit += i.profit;
+			ksack->sol_weight += i.weight;
+			ksack->capacity -= i.weight;
+			std::cout << "capcity is now " << ksack->capacity << std::endl;
 	}
 	writesolfile(ksack);
 	return;
@@ -180,18 +189,12 @@ main(int argc, const char* argv[])
 	{
 		fd.open(filename, std::ios::in);
 		joulethief->capacity = initpq(pq, &fd);
+		std::cout << "got capacity " << joulethief->capacity << std::endl;
 		steal(pq, joulethief);
 	}
+	std::cout << "freeing data" << std::endl;
 	if(fd.is_open())
 		fd.close();
-	printf("freeing item space\n");
-	for(uint64_t i = 0; i < pq->getSize(); i++)
-		free(items[i]);
-	free(items);
-	printf("freeing bst\n");
-	printf("freeing knapsack\n");
-	free(joulethief);
-	printf("freeing pq\n");
 	delete pq;
 	exit(0);
 }
