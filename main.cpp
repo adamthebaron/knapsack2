@@ -35,14 +35,14 @@ writesolfile(struct knapsack* ksack)
 }
 
 uint64_t
-initpq(pqueue* pq, std::ifstream* fd)
+initpq(pqueue* pq, std::ifstream* fd, std::istringstream iss)
 {
 	uint64_t value, weight, capacity, size;
 	char name[64];
 	item** items;
 
 	value = weight = capacity = size = 0;
-	fd->getline(size, capacity);
+	fd >> size >> capacity;
 	pq->setSize(size);
 	printf("number of items is %" PRIu64 "\n", pq->getSize());
 	items = new item*;
@@ -121,7 +121,8 @@ main(int argc, const char* argv[])
 {
 	uint64_t nflag, wflag, opt;
 	std::string filename;
-	std::ofstream fd;
+	std::fstream fd;
+	std::istringstream iss;
 	struct pqueue* pq;
 	struct knapsack* joulethief;
 	struct item** items;
@@ -176,7 +177,7 @@ main(int argc, const char* argv[])
 	if(filename != "")
 	{
 		fd.open(filename, std::ios::in);
-		joulethief->capacity = initpq(pq, &fd, items);
+		joulethief->capacity = initpq(pq, &fd, iss);
 		steal(pq, joulethief);
 	}
 	if(fd.is_open())

@@ -67,26 +67,82 @@ pqueue::enqueue(item* i)
 	return;
 }
 
-item
+node*
 pqueue::_dequeue(node* n)
 {
-	if(n == NULL)
-		return nullitem;
 	if(n->right != NULL)
-		return this->_dequeue(n->right);
-	if(n->left != NULL)
-		return this->_dequeue(n->left);
-	item i;
-	printf("copying item %s\n", n->i->name);
-	memcpy(&i, n->i, sizeof(struct item));
-	printf("copied %s\n", i.name);
-	printf("freeing node %s\n", i.name);
-	delete n;
-	return i;
+	{
+		n->right = this->_dequeue(n->right);
+		return n;
+	}
+	else
+	{
+		this->size--;
+		/* node we need has no children */
+		if(n->left == NULL)
+			return n;
+		/* node we need has a left child */
+		node* tmp;
+		tmp = n;
+		n = n->left;
+		while(n->right != NULL)
+		{
+			n = n->right;
+
+		}
+	}
+}
+
+node*
+pqueue::_delete(node* n, node* root)
+{
+	if(root == NULL)
+		return NULL;
+	if(n->i->ratio < root->i->ratio)
+	{
+		root->left = this->_delete(n, root->left);
+		return root;
+	}
+	else if(n->i->ratio > root->i->ratio)
+	{
+		root->right = this->_delete(n, root->right);
+		return root;
+	}
+	else
+	{
+		this->size--;
+		if(root->left == NULL && root->right == NULL)
+			return NULL;
+		if(root->right == NULL)
+			return root->left;
+		if(root->left == NULL);
+			return root->right;
+	}
+}
+
+void
+pqueue::Delete(node* n)
+{
+	this->_delete(n, this->root);
+	return;
 }
 
 item
 pqueue::dequeue(void)
 {
-	return this->_dequeue(this->root);
+	item i;
+	node *max, *pos;
+
+	pos = this->root;
+	while(pos->right != NULL)
+	{
+		pos = pos->right;
+	}
+	max = pos;
+	strcpy(i.name, max->i->name);
+	i.profit = max->i->profit;
+	i.weight = max->i->weight;
+	i.ratio = max->i->ratio;
+	this->Delete(max);
+	return i;
 }

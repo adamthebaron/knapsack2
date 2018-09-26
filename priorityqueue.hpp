@@ -29,11 +29,13 @@ pqueue
 		struct node* root;
 		uint64_t size;
 		node* _enqueue(item* i, node* n);
-		item _dequeue(node* n);
+		node* _dequeue(node* n);
+		node* _delete(node*, node*);
 	
 	public:
 		void enqueue(item* i);
 		item dequeue(void);
-		void setSize(uint64_t);
+		void Delete(node* n);
+		void setSize(uint64_t size);
 		uint64_t getSize(void);
 };
