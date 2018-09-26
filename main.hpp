@@ -29,5 +29,5 @@ void usage(void);
 int genfile(uint64_t, uint64_t);
 void writesolfile(struct knapsack*);
 uint64_t genrand(uint64_t);
-uint64_t initpq(struct pqueue*, std::ifstream*, struct item**);
+uint64_t initpq(struct pqueue*, std::ifstream*);
 void steal(struct pqueue*, struct knapsack*);
