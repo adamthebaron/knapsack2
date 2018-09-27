@@ -35,7 +35,7 @@ main(int argc, char* argv[])
 	uint64_t n, w;
 
 	n = w = 0;
-	if(argc == 1 || argc > 3)
+	if(argc == 1 || argc > 4)
 	{
 		usage();
 		exit(1);
@@ -44,5 +44,6 @@ main(int argc, char* argv[])
 	w = strtoll(argv[2], NULL, 10);
 	filename = argv[3];
 	std::cout << n << " " << w << " " << filename << std::endl;
+	genfile(n, w, filename);
 	exit(0);
 }
