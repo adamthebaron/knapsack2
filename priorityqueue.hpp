@@ -1,26 +1,27 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <iostream>
+#include <string>
 #include <inttypes.h>
 
 struct
 item
 {
-	char name[64];
+	std::string name;
 	uint64_t weight;
 	uint64_t profit;
 	double ratio;
 };
 
-extern struct item nullitem;
-
 struct
 node
 {
-	struct item* i;
-	struct node *parent, *left, *right;
+	item* i;
+	node *parent, *left, *right;
 };
+
+typedef node* nodeptr;
 
 class
 pqueue
@@ -28,10 +29,10 @@ pqueue
 	private:
 		struct node* root;
 		uint64_t size;
-		node* _enqueue(item* i, node* n);
-		node* _dequeue(node* n);
-		node* _delete(node*, node*);
-	
+		void _enqueue(item* i, nodeptr& n, nodeptr& p);
+		node* _dequeue(nodeptr n);
+		void _delete(nodeptr& n);
+
 	public:
 		void enqueue(item* i);
 		item dequeue(void);

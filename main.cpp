@@ -10,44 +10,45 @@ usage(void)
 void
 writesolfile(struct knapsack* ksack)
 {
-	
+	for(uint64_t i = 0; i < ksack->sol_item_num; i++)
+	{
+		std::cout << "item " << i << " is " << ksack->sol_items[i].name << " " << ksack->sol_items[i].ratio << std::endl;
+	}
+	std::cout << "solution profit " << ksack->sol_profit << std::endl;
+	std::cout << "solution weight " << ksack->sol_weight << std::endl;
 	return;
 }
 
 uint64_t
 initpq(pqueue* pq, std::ifstream* fd)
 {
-	uint64_t value, weight, capacity, size;
+	uint64_t capacity, size;
 	char name[64];
 	item** items;
 
-	value = weight = capacity = size = 0;
+	capacity = size = 0;
 	*fd >> size;
 	*fd >> capacity;
 	pq->setSize(size);
 	printf("number of items is %" PRIu64 "\n", pq->getSize());
-	items = new item*;
+	items = new item*[capacity];
 	printf("allocated space on stack for items\n");
 	for(uint64_t i = 0; i < pq->getSize(); i++)
 	{
 		items[i] = new item();
-		*fd >> name;
-		*fd >> value;
-		*fd >> weight;
-		strcpy(items[i]->name, name);
-		items[i]->profit = value;
-		items[i]->weight = weight;
+		*fd >> items[i]->name;
+		*fd >> items[i]->profit;
+		*fd >> items[i]->weight;
 		/* should this be a cast? */
-		items[i]->ratio = (double) value / (double) weight;
-		memset(&name, 0, 64 * sizeof(char));
+		items[i]->ratio = (double) items[i]->profit / (double) items[i]->weight;
+		std::cout << "added item " << items[i]->name << " of profit " << items[i]->profit << " and weight " << items[i]->weight << " and ratio " << items[i]->ratio << std::endl;
 	}
-	printf("added 10000 items\n");
-	printf("out of loop pqsize is %" PRIu64 "\n", pq->getSize());
+	std::cout << "added " << pq->getSize() << " items" << std::endl;
 	for(uint64_t i = 0; i < pq->getSize(); i++)
 	{
-		printf("calling enqueue on item %s at iteration %" PRIu64 ", less than %" PRIu64 "\n", items[i]->name, i, pq->getSize());
+		std::cout << "calling enqueue on item " << items[i]->name << " at iteration " << i << std::endl;
 		pq->enqueue(items[i]);
-		printf("enqueue called\n");
+		std::cout << "called enqueue" << std::endl;
 	}
 	return capacity;
 }
@@ -55,20 +56,18 @@ initpq(pqueue* pq, std::ifstream* fd)
 void
 steal(struct pqueue* pq, struct knapsack* ksack)
 {
-	struct item i;
-	
-	i = nullitem;
+	item i;
+
 	while(ksack->capacity >= 0)
 	{
 		i = pq->dequeue();
-		printf("adding item %s %" PRIu64 " %" PRIu64 "\n",
-				   i.name, i.profit, i.weight);
-			ksack->sol_items[ksack->sol_item_num] = i;
-			ksack->sol_item_num++;
-			ksack->sol_profit += i.profit;
-			ksack->sol_weight += i.weight;
-			ksack->capacity -= i.weight;
-			std::cout << "capcity is now " << ksack->capacity << std::endl;
+		std::cout << "checking item " << i.name << " " << i.profit << " " << i.weight << " " << i.ratio << std::endl;
+		ksack->sol_items[ksack->sol_item_num] = i;
+		ksack->sol_item_num++;
+		ksack->sol_profit += i.profit;
+		ksack->sol_weight += i.weight;
+		ksack->capacity -= i.weight;
+		std::cout << "capcity is now " << ksack->capacity << std::endl;
 	}
 	writesolfile(ksack);
 	return;

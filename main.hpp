@@ -5,17 +5,8 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <string>
 
 #include "priorityqueue.hpp"
-
-struct item nullitem = {
-	/* name */ "null item",
-	/* weight */ 0,
-	/* profit */ 0,
-	/* ratio */ 0
-};
-
 
 struct knapsack {
 	int64_t capacity;
