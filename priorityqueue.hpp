@@ -9,12 +9,19 @@ struct
 item
 {
 	std::string name;
-	uint64_t weight;
+	int64_t weight;
 	uint64_t profit;
 	double ratio;
 	void print()
 	{
 		std::cout << "name: " << name << " weight: " << weight << " profit: " << profit << " ratio: " << ratio << std::endl;
+	}
+	item()
+	{
+		weight = 0;
+		profit = 0;
+		ratio = 0.0;
+		name = "";
 	}
 };
 

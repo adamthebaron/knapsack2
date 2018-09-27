@@ -56,20 +56,31 @@ steal(struct pqueue* pq, struct knapsack* ksack)
 {
 	item* i;
 
-	while(ksack->capacity >= 0)
+	std::cout << "got capacity " << ksack->capacity << std::endl;
+	while(ksack->capacity > 0)
 	{
+		std::cout << "capacity is " << ksack->capacity << std::endl;
 		i = pq->dequeue();
-		//std::cout << "from dequeue we got ";
-		//i->print();
-		ksack->capacity -= i->weight;
-		if(ksack->capacity <= 0)
-			break;
+		std::cout << "from dequeue we got ";
+		i->print();
+		std::cout << "checking ot see if ";
+		std::cout << ksack->capacity - i->weight;
+		std::cout << "is less than 0" << std::endl;
+		if(ksack->capacity - i->weight < 0)
+		{
+			std::cout << "skipping item ";
+			i->print();
+			std::cout << "since it wont fit" << std::endl;
+			continue;
+		}
+		else
+			ksack->capacity -= i->weight;
 		ksack->sol_items[ksack->sol_item_num] = i;
 		ksack->sol_item_num++;
 		ksack->sol_profit += i->profit;
 		ksack->sol_weight += i->weight;
-		//std::cout << "knapsack is now ";
-		//ksack->string();
+		std::cout << "knapsack is now ";
+		ksack->string();
 	}
 	writesolfile(ksack);
 	return;
