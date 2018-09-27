@@ -12,6 +12,9 @@ item
 	uint64_t weight;
 	uint64_t profit;
 	double ratio;
+	void print() {
+		std::cout << "name: " << name << " weight: " << weight << " profit: " << profit << " ratio: " << ratio << std::endl;
+	}
 };
 
 struct
@@ -19,6 +22,16 @@ node
 {
 	item* i;
 	node *parent, *left, *right;
+	node()
+	{
+		i = NULL;
+		parent = left = right = NULL;
+	}
+	node(item* curitem)
+	{
+		i = curitem;
+		parent = left = right = NULL;
+	}
 };
 
 typedef node* nodeptr;
@@ -31,12 +44,16 @@ pqueue
 		uint64_t size;
 		void _enqueue(item* i, nodeptr& n, nodeptr& p);
 		node* _dequeue(nodeptr n);
-		void _delete(nodeptr& n);
+		void _traversal(nodeptr n);
 
 	public:
 		void enqueue(item* i);
-		item dequeue(void);
-		void Delete(node* n);
-		void setSize(uint64_t size);
-		uint64_t getSize(void);
+		item* dequeue();
+		uint64_t getSize() const;
+		void traversal();
+		pqueue()
+		{
+			root = NULL;
+			size = 0;
+		}
 };

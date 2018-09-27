@@ -14,7 +14,7 @@ writesolfile(struct knapsack* ksack)
 	std::cout << ksack->sol_weight << std::endl;
 	for(uint64_t i = 0; i < ksack->sol_item_num; i++)
 	{
-		std::cout << ksack->sol_items[i].name << " " << ksack->sol_items[i].ratio << std::endl;
+		std::cout << ksack->sol_items[i]->name << " " << ksack->sol_items[i]->ratio << std::endl;
 	}
 	return;
 }
@@ -29,37 +29,43 @@ initpq(pqueue* pq, std::ifstream* fd)
 	capacity = size = 0;
 	*fd >> size;
 	*fd >> capacity;
-	pq->setSize(size);
-	items = new item*[capacity];
-	for(uint64_t i = 0; i < pq->getSize(); i++)
+	items = new item*[size];
+	for(uint64_t i = 0; i < size; i++)
 	{
+		std::cout << "iteration " << i << std::endl;
 		items[i] = new item();
 		*fd >> items[i]->name;
 		*fd >> items[i]->profit;
 		*fd >> items[i]->weight;
 		/* should this be a cast? */
 		items[i]->ratio = (double) items[i]->profit / (double) items[i]->weight;
+		std::cout<< "added item ";
+		items[i]->print();
 	}
-	for(uint64_t i = 0; i < pq->getSize(); i++)
+	for(uint64_t i = 0; i < size; i++)
 	{
 		pq->enqueue(items[i]);
 	}
+	pq->traversal();
 	return capacity;
 }
 
 void
 steal(struct pqueue* pq, struct knapsack* ksack)
 {
-	item i;
+	item* i;
 
 	while(ksack->capacity >= 0)
 	{
 		i = pq->dequeue();
+		std::cout << "from dequeue we got";
+		i->print();
 		ksack->sol_items[ksack->sol_item_num] = i;
 		ksack->sol_item_num++;
-		ksack->sol_profit += i.profit;
-		ksack->sol_weight += i.weight;
-		ksack->capacity -= i.weight;
+		ksack->sol_profit += i->profit;
+		ksack->sol_weight += i->weight;
+		ksack->capacity -= i->weight;
+		
 	}
 	writesolfile(ksack);
 	return;
@@ -72,9 +78,7 @@ main(int argc, const char* argv[])
 	std::ifstream fd;
 	struct pqueue* pq;
 	struct knapsack* joulethief;
-	struct item** items;
 
-	items = NULL;
 	if(argc == 1 || argc > 2)
 	{
 		usage();

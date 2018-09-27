@@ -13,7 +13,12 @@ struct knapsack {
 	uint64_t sol_item_num;
 	uint64_t sol_weight;
 	uint64_t sol_profit;
-	struct item sol_items[1024];
+	struct item* sol_items[10000];
+	knapsack()
+	{
+		sol_item_num = sol_weight = sol_profit = 0;
+		capacity = 0;
+	}
 };
 
 void usage(void);
