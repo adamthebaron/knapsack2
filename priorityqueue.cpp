@@ -18,9 +18,7 @@ pqueue::_enqueue(item* i, nodeptr& n, nodeptr& p)
 	{
 		n = new node();
 		n->i = i;
-		//std::cout << "enqueuing item " << n->i->name << std::endl;
 		n->parent = parent;
-		//std::cout << "setting parent to " << n->parent << std::endl;
 		return;
 	}
 	else
@@ -62,21 +60,17 @@ pqueue::enqueue(item* i)
 node*
 pqueue::_dequeue(nodeptr n)
 {
-	//std::cout << "at node " << n->i->name << std::endl;
 	if(n->right != NULL)
 	{
-		//std::cout << "right child not null going to " << n->right->i->name << std::endl;
 		return _dequeue(n->right);
 	}
 	else if(n->left != NULL)
 	{
-		//std::cout << "left child " << n->left->i->name << " not null need to set some pointers" << std::endl;
 		n->left->parent = n->parent;
 		if(n->parent != NULL)
 			n->parent->right = n->left;
 		else
 			root = n->left;
-		//std::cout << "gucci" << std::endl;
 	}
 	else
 	{
@@ -97,7 +91,6 @@ pqueue::dequeue(void)
 	if(root == NULL)
 		return NULL;
 	n = this->_dequeue(this->root);
-	//std::cout << "got item " << n->i->name << std::endl;
 	return n->i;
 }
 
