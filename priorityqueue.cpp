@@ -17,45 +17,39 @@ pqueue::_enqueue(item* i, nodeptr& n, nodeptr& p)
 {
 	if(n == NULL)
 	{
-		printf("found null leaf, going here\n");
 		n = new node();
 		n->i = i;
 		n->left = n->right = NULL;
 		if(p == NULL)
 			n->parent = NULL;
 		else
+		{
 			n->parent = p;
+		}
 		return;
 	}
 	else
 	{
 		if(i->ratio < n->i->ratio)
 		{
-			std::cout << i->ratio << " is less than ratio " << n->i->ratio << " on item " << n->i->name << " going left" << std::endl;
 			this->_enqueue(i, n->left, n);
 		}
 		if(i->ratio > n->i->ratio)
 		{
-			std::cout << i->ratio << " is greater than ratio " << n->i->ratio << " on item " << n->i->name << " going right" << std::endl;
 			this->_enqueue(i, n->right, n);
 		}
 		if(n->i->ratio == i->ratio)
 		{
-			printf("%f is equal to %f, checking profit\n", n->i->ratio, i->ratio);
-			printf("profits are %" PRIu64 " and %" PRIu64 "\n", n->i->profit, i->profit);
 			if(n->i->profit < i->profit)
 			{
-				printf("%" PRIu64 "is less than %" PRIu64 ", going left\n", n->i->profit, i->profit);
 				this->_enqueue(i, n->left, n);
 			}
 			else if(n->i->profit > i->profit)
 			{
-				printf("%" PRIu64 "is greater than %" PRIu64 ", going right\n", n->i->profit, i->profit);
 				this->_enqueue(i, n->right, n);
 			}
 			else if(n->i->profit == i->profit)
 			{
-				printf("profits are the same just go to the left\n");
 				this->_enqueue(i, n->left, n);
 			}
 		}
@@ -70,26 +64,10 @@ pqueue::enqueue(item* i)
 	return;
 }
 
-void
-pqueue::_delete(nodeptr &n)
-{
-	std::cout << "at node " << n->i->name << std::endl;
-	if(n->right != NULL)
-		this->_delete(n->right);
-	if(n->right == NULL && n->left != NULL)
-	{
-		std::cout << "setting " << n->i->name << " to be replaced by " << n->left->i->name << std::endl;
-		n = n->left;
-		std::cout << "n now has a left child of " << n->left->i->name << std::endl;
-		return;
-	}
-	return;
-}
-
 node*
 pqueue::_dequeue(nodeptr n)
 {
-	std::cout << "looking at node " << n->i->name;
+	/*std::cout << "looking at node " << n->i->name;
 	std::cout << " with parent stuff " << n->parent->i->name << std::endl;
 	if(n == NULL)
 		return NULL;
@@ -103,6 +81,12 @@ pqueue::_dequeue(nodeptr n)
 	std::cout << "returning " << n->i->name << std::endl; //" to " << n->left->i->name << std::endl;
 	std::cout << "setting " << n->parent->i->name << " to have a left child of " << n->left->i->name << std::endl;
 	n->parent->right = n->left;
+	return n;*/
+
+	if(n->right != NULL)
+		n->right = this->_dequeue(n->right);
+	if(n->left != NULL)
+		n->parent->right = n->left;
 	return n;
 }
 
