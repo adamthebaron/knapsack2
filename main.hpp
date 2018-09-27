@@ -19,6 +19,10 @@ struct knapsack {
 		sol_item_num = sol_weight = sol_profit = 0;
 		capacity = 0;
 	}
+	void string()
+	{
+		std::cout << "capacity: " << capacity << " sol_item_num: " << sol_item_num << " sol_weight: " << sol_weight << " sol_profit: " << sol_profit << std::endl;
+	}
 };
 
 void usage(void);

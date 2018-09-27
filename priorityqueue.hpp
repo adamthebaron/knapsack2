@@ -12,7 +12,8 @@ item
 	uint64_t weight;
 	uint64_t profit;
 	double ratio;
-	void print() {
+	void print()
+	{
 		std::cout << "name: " << name << " weight: " << weight << " profit: " << profit << " ratio: " << ratio << std::endl;
 	}
 };
