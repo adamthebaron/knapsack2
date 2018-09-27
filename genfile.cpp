@@ -24,7 +24,7 @@ genfile(uint64_t n, uint64_t w, std::string filename)
 	fd.open(filename, std::ios::out);
 	fd << n << " " << w << std::endl;
 	for(uint64_t i = 0; i < n; i++)
-		fd << "item" << i << " " << genrand(n) << " " << genrand(w) << std::endl;
+		fd << "item" << i << " " << genrand(n) << " " << genrand(n) << std::endl;
 	return;
 }
 
