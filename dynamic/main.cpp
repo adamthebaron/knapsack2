@@ -34,7 +34,7 @@ printarr(uint64_t **arr, uint64_t m, uint64_t n)
 }
 
 uint64_t 
-memoize(uint64_t weight, uint64_t n, uint64_t weights[], uint64_t values[]) 
+memoize(uint64_t weight, uint64_t n, uint64_t *weights, uint64_t *values) 
 { 
    uint64_t memo[n + 1][w + 1]; 
 
@@ -60,18 +60,26 @@ main(int argc, const char* argv[])
 	std::string filename;
 	std::ifstream fd;
 	struct knapsack* joulethief;
+	uint64_t maxval;
+	uint64_t weight;
+	uint64_t itemnum;
+	uint64_t *weights;
+	uint64_t *values;
 
 	if(argc == 1 || argc > 2)
 	{
 		usage();
 		exit(0);
 	}
+	maxval = weight = itemnum = 0;
 	filename = argv[1];
 	joulethief = new knapsack();
 	fd.open(filename, std::ios::in);
-	joulethief->capacity = initpq(pq, &fd);
-	steal(pq, joulethief);
+	maxval = memoize(weight, itemnum, weights, values);
+	std::cout << "maximum value for knapsack of size " << weight << " is " << maxval << std::endl;
 	fd.close();
 	delete joulethief;
+	delete weights;
+	delete values;
 	exit(0);
 }

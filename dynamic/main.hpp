@@ -6,6 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
+#include <cinttypes>
 
 struct knapsack {
 	int64_t capacity;
