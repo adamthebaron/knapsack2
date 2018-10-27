@@ -6,7 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm>
-#include <cinttypes>
+#include <cstdint>
 
 struct knapsack {
 	int64_t capacity;
@@ -27,3 +27,4 @@ struct knapsack {
 
 void usage(void);
 void writesolfile(struct knapsack*);
+
