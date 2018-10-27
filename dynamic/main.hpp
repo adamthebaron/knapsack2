@@ -5,8 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-
-#include "priorityqueue.hpp"
+#include <algorithm>
 
 struct knapsack {
 	int64_t capacity;
@@ -26,8 +25,4 @@ struct knapsack {
 };
 
 void usage(void);
-int genfile(uint64_t, uint64_t);
 void writesolfile(struct knapsack*);
-uint64_t genrand(uint64_t);
-uint64_t initpq(struct pqueue*, std::ifstream*);
-void steal(struct pqueue*, struct knapsack*);

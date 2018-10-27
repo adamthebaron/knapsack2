@@ -1,7 +1,4 @@
-#include <time.h>
-#include <iostream>
-#include <fstream>
-#include <string>
+#include "genfile.hpp"
 
 void
 usage(void)
@@ -34,6 +31,7 @@ main(int argc, char* argv[])
 	std::string filename;
 	uint64_t n, w;
 
+	srand((uint32_t)time(NULL));
 	n = w = 0;
 	if(argc == 1 || argc > 4)
 	{

@@ -20,60 +20,45 @@ writesolfile(struct knapsack* ksack)
 	return;
 }
 
-uint64_t
-initpq(pqueue* pq, std::ifstream* fd)
-{
-	uint64_t capacity, size;
-	char name[64];
-	item** items;
-
-	capacity = size = 0;
-	*fd >> size;
-	*fd >> capacity;
-	items = new item*[size];
-	for(uint64_t i = 0; i < size; i++)
-	{
-		items[i] = new item();
-		*fd >> items[i]->name;
-		*fd >> items[i]->profit;
-		*fd >> items[i]->weight;
-		items[i]->ratio = (double) items[i]->profit / (double) items[i]->weight;
-	}
-	for(uint64_t i = 0; i < size; i++)
-	{
-		pq->enqueue(items[i]);
-	}
-	//pq->traversal();
-	return capacity;
-}
-
 void
-steal(struct pqueue* pq, struct knapsack* ksack)
+printarr(uint64_t **arr, uint64_t m, uint64_t n)
 {
-	item* i;
-
-	while(ksack->capacity > 0)
+	for(uint64_t i = 0; i < m; i++)
 	{
-		i = pq->dequeue();
-		if(ksack->capacity - i->weight < 0)
-			continue;
-		else
-			ksack->capacity -= i->weight;
-		ksack->sol_items[ksack->sol_item_num] = i;
-		ksack->sol_item_num++;
-		ksack->sol_profit += i->profit;
-		ksack->sol_weight += i->weight;
+		for(uint64_t j = 0; j < n; j++)
+		{
+			std::cout << arr[i][j] << ' ';
+		}
+		std::cout << std::endl;
 	}
-	writesolfile(ksack);
-	return;
 }
+
+uint64_t 
+memoize(uint64_t weight, uint64_t n, uint64_t weights[], uint64_t values[]) 
+{ 
+   uint64_t memo[n + 1][w + 1]; 
+
+   for (uint64_t i = 0; i <= n; i++) 
+   { 
+       for (uint64_t w = 0; w <= W; w++) 
+       { 
+           if (i==0 || w==0) 
+               memo[i][w] = 0; 
+           else if (wt[i-1] <= w) 
+                 memo[i][w] = max(values[i-1] + memo[i-1][w-weights[i-1]],  memo[i-1][w]); 
+           else
+                 memo[i][w] = memo[i-1][w]; 
+       }
+   }
+   printarr(&memo, n, w);
+   return memo[n][w]; 
+} 
 
 int
 main(int argc, const char* argv[])
 {
 	std::string filename;
 	std::ifstream fd;
-	struct pqueue* pq;
 	struct knapsack* joulethief;
 
 	if(argc == 1 || argc > 2)
@@ -81,14 +66,12 @@ main(int argc, const char* argv[])
 		usage();
 		exit(0);
 	}
-	srand((uint32_t)time(NULL));
 	filename = argv[1];
-	pq = new pqueue();
 	joulethief = new knapsack();
 	fd.open(filename, std::ios::in);
 	joulethief->capacity = initpq(pq, &fd);
 	steal(pq, joulethief);
 	fd.close();
-	delete pq;
+	delete joulethief;
 	exit(0);
 }
