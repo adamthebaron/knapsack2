@@ -21,7 +21,7 @@ writesolfile(struct knapsack* ksack)
 }
 
 void
-printarr(uint64_t **arr, uint64_t m, uint64_t n)
+printarr(uint64_t& arr[][], uint64_t m, uint64_t n)
 {
 	for(uint64_t i = 0; i < m; i++)
 	{
@@ -50,7 +50,7 @@ memoize(uint64_t weight, uint64_t n, uint64_t *weights, uint64_t *values)
                  memo[i][w] = memo[i-1][w]; 
        }
    }
-   printarr(&memo, n, w);
+   printarr(memo, n, w);
    return memo[n][w]; 
 } 
 
