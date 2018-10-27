@@ -27,4 +27,5 @@ struct knapsack {
 
 void usage(void);
 void writesolfile(struct knapsack*);
-
+void printarr(uint64_t**, uint64_t, uint64_t);
+uint64_t memoize(uint64_t, uint64_t, uint64_t*, uint64_t*);
