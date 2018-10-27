@@ -36,16 +36,16 @@ printarr(uint64_t **arr, uint64_t m, uint64_t n)
 uint64_t 
 memoize(uint64_t weight, uint64_t n, uint64_t *weights, uint64_t *values) 
 { 
-   uint64_t memo[n + 1][w + 1]; 
+   uint64_t memo[n + 1][weight + 1]; 
 
    for (uint64_t i = 0; i <= n; i++) 
    { 
-       for (uint64_t w = 0; w <= W; w++) 
+       for (uint64_t w = 0; w <= weight; w++) 
        { 
            if (i==0 || w==0) 
                memo[i][w] = 0; 
            else if (wt[i-1] <= w) 
-                 memo[i][w] = max(values[i-1] + memo[i-1][w-weights[i-1]],  memo[i-1][w]); 
+                 memo[i][w] = max(values[i-1] + memo[i-1][w-weights[i-1]], memo[i-1][w]); 
            else
                  memo[i][w] = memo[i-1][w]; 
        }

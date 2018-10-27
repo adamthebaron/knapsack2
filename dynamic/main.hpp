@@ -2,11 +2,12 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <time.h>
+#include <stdint.h>
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <algorithm>
-#include <cstdint>
 
 struct knapsack {
 	int64_t capacity;
