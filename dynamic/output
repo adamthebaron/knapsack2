@@ -1,0 +1,485 @@
+got itemnum 7 and knapsack weight 25
+weight of knapsack is 25 number of items is 7
+i is 0 w is 0 setting memo of i of w to 0
+i is 0 w is 1 setting memo of i of w to 0
+i is 0 w is 2 setting memo of i of w to 0
+i is 0 w is 3 setting memo of i of w to 0
+i is 0 w is 4 setting memo of i of w to 0
+i is 0 w is 5 setting memo of i of w to 0
+i is 0 w is 6 setting memo of i of w to 0
+i is 0 w is 7 setting memo of i of w to 0
+i is 0 w is 8 setting memo of i of w to 0
+i is 0 w is 9 setting memo of i of w to 0
+i is 0 w is 10 setting memo of i of w to 0
+i is 0 w is 11 setting memo of i of w to 0
+i is 0 w is 12 setting memo of i of w to 0
+i is 0 w is 13 setting memo of i of w to 0
+i is 0 w is 14 setting memo of i of w to 0
+i is 0 w is 15 setting memo of i of w to 0
+i is 0 w is 16 setting memo of i of w to 0
+i is 0 w is 17 setting memo of i of w to 0
+i is 0 w is 18 setting memo of i of w to 0
+i is 0 w is 19 setting memo of i of w to 0
+i is 0 w is 20 setting memo of i of w to 0
+i is 0 w is 21 setting memo of i of w to 0
+i is 0 w is 22 setting memo of i of w to 0
+i is 0 w is 23 setting memo of i of w to 0
+i is 0 w is 24 setting memo of i of w to 0
+i is 0 w is 25 setting memo of i of w to 0
+i is 1 w is 0 setting memo of i of w to 0
+weight of item  (0) less than or equal to 1
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 2
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 3
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 4
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 5
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 6
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 7
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 8
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 9
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 10
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 11
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 12
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 13
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 14
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 15
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 16
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 17
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 18
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 19
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 20
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 21
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 22
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 23
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 24
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 25
+ finding max of 0 0
+max is 0
+i is 2 w is 0 setting memo of i of w to 0
+weight of item  (0) less than or equal to 1
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 2
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 3
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 4
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 5
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 6
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 7
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 8
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 9
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 10
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 11
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 12
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 13
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 14
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 15
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 16
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 17
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 18
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 19
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 20
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 21
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 22
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 23
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 24
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 25
+ finding max of 0 0
+max is 0
+i is 3 w is 0 setting memo of i of w to 0
+weight of item  (0) less than or equal to 1
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 2
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 3
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 4
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 5
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 6
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 7
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 8
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 9
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 10
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 11
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 12
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 13
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 14
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 15
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 16
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 17
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 18
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 19
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 20
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 21
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 22
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 23
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 24
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 25
+ finding max of 0 0
+max is 0
+i is 4 w is 0 setting memo of i of w to 0
+weight of item  (0) less than or equal to 1
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 2
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 3
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 4
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 5
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 6
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 7
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 8
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 9
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 10
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 11
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 12
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 13
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 14
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 15
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 16
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 17
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 18
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 19
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 20
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 21
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 22
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 23
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 24
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 25
+ finding max of 0 0
+max is 0
+i is 5 w is 0 setting memo of i of w to 0
+weight of item  (0) less than or equal to 1
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 2
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 3
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 4
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 5
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 6
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 7
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 8
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 9
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 10
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 11
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 12
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 13
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 14
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 15
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 16
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 17
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 18
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 19
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 20
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 21
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 22
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 23
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 24
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 25
+ finding max of 0 0
+max is 0
+i is 6 w is 0 setting memo of i of w to 0
+weight of item  (0) less than or equal to 1
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 2
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 3
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 4
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 5
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 6
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 7
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 8
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 9
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 10
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 11
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 12
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 13
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 14
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 15
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 16
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 17
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 18
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 19
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 20
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 21
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 22
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 23
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 24
+ finding max of 0 0
+max is 0
+weight of item  (0) less than or equal to 25
+ finding max of 0 0
+max is 0
+i is 7 w is 0 setting memo of i of w to 0
