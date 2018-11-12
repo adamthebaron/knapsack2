@@ -38,3 +38,24 @@ Backtrack::promising(std::uint64_t i)
 		return bound > maxp;
 	}
 }
+
+void
+Backtrack::knapsack(std::uint64_t i)
+{
+	std::uint64_t numbest;
+	std::string* include;
+
+	if(weights[i] <= W && profits[i] > maxp)
+	{
+		maxp = profits[i];
+		numbest = i;
+		bestset = include;
+	}
+	if((promising(i))
+	{
+		include[i + 1] = "yes";
+		knapsack(i + 1);
+		include[i + 1] = "no";
+		knapsack(i + 1);
+	}
+}

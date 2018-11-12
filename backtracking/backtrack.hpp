@@ -10,14 +10,14 @@ typedef struct item_t {
 	std::uint64_t profit;
 	std::uint64_t weight;
 	std::string name;
-} item;
+} item_t;
 
 typedef struct node_t {
-	item i;
-	node* left;
-	node* right;
+	item_t i;
+	node_t* left;
+	node_t* right;
 	
-	node()
+	node_t()
 	{
 		i.profit = 0;
 		i.weight = 0;
@@ -25,25 +25,23 @@ typedef struct node_t {
 		left = nullptr;
 		right = nullptr;
 	}
-} node;
+} node_t;
 
 class Backtrack {
 	private:
-	node* root;
-	node* pos;
+	node_t* root;
+	node_t* pos;
 	std::uint64_t n, W, curw, maxp;
-	item* items;
+	item_t* items;
 	std::uint64_t* weights;
 	std::uint64_t* profits;
-	
+	std::string* include;
 	
 	public:
 	Backtrack();
-	void checknode(node& n);
+	void checknode(node_t& n);
 	bool promising(std::uint64_t i);
-	void knapsack(std::uint64_t i, 
-				  std::uint64_t profit, 
-				  std::uint64_t weight);
+	void knapsack(std::uint64_t i);
 };
 
 #endif
