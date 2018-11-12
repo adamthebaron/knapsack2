@@ -42,5 +42,10 @@ main(int argc, char* argv[])
 	}
 	std::ifstream filestream(argv[1]);
 	Backtrack bt;
+	initpq(bt, filestream);
+	std::cout << "initialized priority queue" << std::endl;
+	std::cout << "top twice: " << std::endl;
+	std::cout << bt.top()->name << std::endl;
+	std::cout << bt.top()->name << std::endl;
 	exit(0);
 }

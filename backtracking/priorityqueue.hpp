@@ -46,6 +46,7 @@ node
 };
 
 typedef node* nodeptr;
+typedef item* itemptr;
 
 class
 pqueue
@@ -56,11 +57,13 @@ pqueue
 		void _enqueue(item* i, nodeptr& n, nodeptr& p);
 		node* _dequeue(nodeptr n);
 		void _traversal(nodeptr n);
+		itemptr& _top(nodeptr n);
 
 	public:
 		void enqueue(item* i);
 		item* dequeue();
 		uint64_t getSize() const;
+		itemptr& top(void);
 		void traversal();
 		pqueue()
 		{

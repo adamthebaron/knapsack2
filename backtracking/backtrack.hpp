@@ -24,6 +24,7 @@ class Backtrack {
 	bool setW(std::uint64_t w);
 	void setn(std::uint64_t n);
 	void enqueue(item* i);
+	itemptr& top(void);
 };
 
 #endif

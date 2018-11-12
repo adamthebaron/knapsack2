@@ -94,6 +94,20 @@ pqueue::dequeue(void)
 	return n->i;
 }
 
+itemptr&
+pqueue::_top(nodeptr n)
+{
+	if(n->right != nullptr)
+		_top(n->right);
+	return n->i;
+}
+
+itemptr&
+pqueue::top()
+{
+	return _top(root);
+}
+
 void
 pqueue::_traversal(nodeptr n)
 {

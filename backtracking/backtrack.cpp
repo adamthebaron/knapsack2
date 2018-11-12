@@ -76,3 +76,9 @@ Backtrack::enqueue(item* i)
 {
 	pq.enqueue(i);
 }
+
+itemptr&
+Backtrack::top()
+{
+	return pq.top();
+}
