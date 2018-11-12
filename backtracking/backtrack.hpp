@@ -4,44 +4,26 @@
 #include <cstdint>
 #include <string>
 #include <iostream>
-#include <sstream>
 
-typedef struct item_t {
-	std::uint64_t profit;
-	std::uint64_t weight;
-	std::string name;
-} item_t;
-
-typedef struct node_t {
-	item_t i;
-	node_t* left;
-	node_t* right;
-	
-	node_t()
-	{
-		i.profit = 0;
-		i.weight = 0;
-		i.name = "";
-		left = nullptr;
-		right = nullptr;
-	}
-} node_t;
+#include "priorityqueue.hpp"
 
 class Backtrack {
 	private:
-	node_t* root;
-	node_t* pos;
+	pqueue pq;
 	std::uint64_t n, W, curw, maxp;
-	item_t* items;
+	item* items;
 	std::uint64_t* weights;
 	std::uint64_t* profits;
 	std::string* include;
 	
 	public:
 	Backtrack();
-	void checknode(node_t& n);
 	bool promising(std::uint64_t i);
 	void knapsack(std::uint64_t i);
+	void printSolution(void);
+	bool setW(std::uint64_t w);
+	void setn(std::uint64_t n);
+	void enqueue(item* i);
 };
 
 #endif
