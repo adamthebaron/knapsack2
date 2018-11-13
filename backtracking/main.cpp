@@ -5,18 +5,54 @@
 
 std::uint64_t* w;
 std::uint64_t* p;
+std::uint64_t n, W, numbest, solweight, maxprofit;
 std::vector<std::string> names;
 char* include;
+char* bestset;
 
 bool
 promising(std::uint64_t i, std::uint64_t profit, std::uint64_t weight)
 {
-	return true;
+	std::uint64_t j, k, totalweight;
+	float bound;
+	
+	j = k = totalweight = 0;
+	bound = 0.0;
+	if(weight >= W)
+		return false;
+	j = i + 1;
+	bound = profit;
+	totalweight = weight;
+	while(j < n && totalweight + w[j] <= W)
+	{
+		totalweight += w[j];
+		bound += p[j];
+		j++;
+	}
+	k = j;
+	if(k < n)
+	{
+		bound += (W - totalweight) * (float) (p[k] / w[k]);
+	}
+	return bound > maxprofit;
 }
 
 void
-knapsack(std::uint64_t& i, std::uint64_t& profit, std::uint64_t& weight)
+knapsack(std::uint64_t i, std::uint64_t profit, std::uint64_t weight)
 {
+	if(weight <= W && profit > maxprofit)
+	{
+		maxprofit = profit;
+		numbest = i;
+		bestset = include;
+	}
+	if(promising(i, profit, weight))
+	{
+		include[i + 1] = 'y';
+		knapsack(i + 1, profit + p[i + 1], weight + w[i + 1]);
+		include[i + 1] = 'n';
+		knapsack(i + 1, profit, weight);
+	}
 	return;
 }
 
@@ -35,6 +71,7 @@ initpq(pqueue& pq, std::ifstream& fd)
 
 	fd >> n;
 	fd >> W;
+	std::cout << "got n " << n << " got W " << W << std::endl;
 	items = new itemptr[n];
 	w = new std::uint64_t[n];
 	p = new std::uint64_t[n];
@@ -72,7 +109,7 @@ int
 main(int argc, char* argv[])
 {
 	pqueue pq;
-	std::uint64_t n, W, numbest, solweight, maxprofit, index;
+	std::uint64_t index;
 
 	n = W = numbest = maxprofit = index = solweight = 0;
 	w = p = nullptr;
