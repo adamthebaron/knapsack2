@@ -3,7 +3,9 @@
 
 Backtrack::Backtrack()
 {
-	n = W = curw = maxp = 0;
+	n = w = p = W = maxprofit = numbest = 0;
+	include = bestset = nullptr;
+	items = nullptr;
 }
 
 bool
@@ -15,43 +17,43 @@ Backtrack::promising(std::uint64_t i)
 	j = k = totweight = 0;
 	bound = 0.0;
 	
-	if(curw >= W)
+	if(items[i].weight >= W)
 		return false;
 	else
 	{
 		j = i + 1;
-		bound = profits[i];
-		totweight = weights[i];
-		while(j <= n && totweight + weights[j] <= W)
+		bound = items[i].profit;
+		totweight = items[i].weight;
+		while(j <= n && totweight + items[j].weight <= W)
 		{
-			totweight += weights[j];
-			bound += profits[j];
+			totweight += items[j].weight;
+			bound += items[j].profit;
 			j++;
 		}
 		k = j;
 		if(k <= n)
-			bound += (W - totweight) * profits[k] / weights[k];
-		return bound > maxp;
+			bound += (W - totweight) * items[k].profit 
+									 / items[k].weight;
+		return bound > maxprofit;
 	}
 }
 
 void
 Backtrack::knapsack(std::uint64_t i)
 {
-	std::uint64_t numbest;
-	std::string* bestset;
-
-	if(weights[i] <= W && profits[i] > maxp)
+	if(items[i].weight <= W && items[i].profit > maxprofit)
 	{
-		maxp = profits[i];
+		maxprofit = items[i].profit;
 		numbest = i;
 		bestset = include;
 	}
 	if(promising(i))
 	{
-		include[i + 1] = "yes";
+		//include[i + 1] = "yes";
+		include[i + 1] = &YES;
 		knapsack(i + 1);
-		include[i + 1] = "no";
+		//include[i + 1] = "no";
+		include[i + 1] = &NO;
 		knapsack(i + 1);
 	}
 }
@@ -69,6 +71,18 @@ void
 Backtrack::setn(std::uint64_t n)
 {
 	this->n = n;
+}
+
+std::uint64_t
+Backtrack::getW()
+{
+	return W;
+}
+
+std::uint64_t
+Backtrack::getn()
+{
+	return n;
 }
 
 void

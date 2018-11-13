@@ -7,22 +7,26 @@
 
 #include "priorityqueue.hpp"
 
+static std::string YES = "yes";
+static std::string NO = "no";
+
 class Backtrack {
 	private:
-	pqueue pq;
-	std::uint64_t n, W, curw, maxp;
-	item* items;
-	std::uint64_t* weights;
-	std::uint64_t* profits;
-	std::string* include;
 	
 	public:
+	std::uint64_t n, w, p, W, maxprofit, numbest;
+	std::string** include;
+	std::string** bestset;
+	item* items;
+	pqueue pq;
 	Backtrack();
 	bool promising(std::uint64_t i);
 	void knapsack(std::uint64_t i);
 	void printSolution(void);
 	bool setW(std::uint64_t w);
+	std::uint64_t getW(void);
 	void setn(std::uint64_t n);
+	std::uint64_t getn(void);
 	void enqueue(item* i);
 	itemptr& top(void);
 };
