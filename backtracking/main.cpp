@@ -1,6 +1,24 @@
+#include <fstream>
+#include <vector>
+
 #include "priorityqueue.hpp"
 
-#include <fstream>
+std::uint64_t* w;
+std::uint64_t* p;
+std::vector<std::string> names;
+char* include;
+
+bool
+promising(std::uint64_t i, std::uint64_t profit, std::uint64_t weight)
+{
+	return true;
+}
+
+void
+knapsack(std::uint64_t& i, std::uint64_t& profit, std::uint64_t& weight)
+{
+	return;
+}
 
 void
 usage(void)
@@ -10,18 +28,17 @@ usage(void)
 }
 
 void
-initpq(Backtrack& bt, std::ifstream& fd)
+initpq(pqueue& pq, std::ifstream& fd)
 {
-	item** items;
 	std::uint64_t n, W;
+	itemptr* items;
 
 	fd >> n;
 	fd >> W;
-	items = new item*[n];
-	bt.items = new item[n];
-	bt.include = new bool[n];
-	bt.setn(n);
-	bt.setW(W);
+	items = new itemptr[n];
+	w = new std::uint64_t[n];
+	p = new std::uint64_t[n];
+	include = new char[n];
 	for(std::uint64_t i = 0; i < n; i++)
 	{
 		items[i] = new item();
@@ -30,62 +47,61 @@ initpq(Backtrack& bt, std::ifstream& fd)
 		fd >> items[i]->weight;
 		items[i]->ratio = (double) items[i]->profit /
 						  (double) items[i]->weight;
-		bt.enqueue(items[i]);
+		pq.enqueue(items[i]);
 	}
 }
 
 void
-initarr(Backtrack& bt)
+initarr(pqueue& pq)
 {
 	itemptr item;
 	uint64_t i;
-	
+
 	i = 0;
 	std::cout << "in initarr" << std::endl;
-	while((item = bt.pq.dequeue()) != NULL)
+	while((item = pq.dequeue()) != nullptr)
 	{
-		bt.items[i].name = item->name;
-		bt.items[i].profit = item->profit;
-		bt.items[i].weight = item->weight;
-		bt.items[i].ratio = item->ratio;
+		names.push_back(item->name);
+		p[i] = item->profit;
+		w[i] = item->weight;
 		i++;
 	}
-	
 }
 
 int
 main(int argc, char* argv[])
 {
-	std::uint64_t maxprofit, solweight, numbest, index;
-	
-	maxprofit = solweight = numbest = index = 0;
+	pqueue pq;
+	std::uint64_t n, W, numbest, solweight, maxprofit, index;
+
+	n = W = numbest = maxprofit = index = solweight = 0;
+	w = p = nullptr;
+	include = nullptr;
 	if(argc != 2)
 	{
 		usage();
 		exit(1);
 	}
 	std::ifstream filestream(argv[1]);
-	Backtrack bt;
-	initpq(bt, filestream);
+	initpq(pq, filestream);
 	std::cout << "initialized priority queue" << std::endl;
-	initarr(bt);
+	initarr(pq);
 	std::cout << "initialized array" << std::endl;
 	std::cout << "array:" << std::endl;
-	for(std::uint64_t i = 0; i < bt.n; i++)
+	for(std::uint64_t i = 0; i < n; i++)
 	{
-		std::cout << bt.items[i].name << " ";
-		std::cout << bt.items[i].profit << " ";
-		std::cout << bt.items[i].weight << " ";
-		std::cout << bt.items[i].ratio;
+		std::cout << names[i] << " ";
+		std::cout << p[i] << " ";
+		std::cout << w[i] << " ";
 		std::cout << std::endl;
 	}
-	bt.knapsack(index, maxprofit, solweight);
+	knapsack(index, maxprofit, solweight);
 	std::cout << "found knapsack solution" << std::endl;
 	std::cout << "max profit: " << maxprofit << std::endl;
 	std::cout << "solution weight: " << solweight << std::endl;
 	std::cout << "items chosen: ";
-	for(uint64_t i = 0; i < bt.n; i++)
-		std::cout << i << ": " << bt.include[i] << " ";
+	for(uint64_t i = 0; i < n; i++)
+		std::cout << i << ": " << include[i] << " ";
 	std::cout << std::endl;
 	exit(0);
 }

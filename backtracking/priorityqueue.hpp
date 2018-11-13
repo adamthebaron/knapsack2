@@ -1,9 +1,9 @@
-#ifndef _PRIORITYQUEUE_HPP_
-#define _PRIORITYQUEUE_HPP_
-
-#include <cstdint>
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <iostream>
 #include <string>
+#include <inttypes.h>
 
 struct
 item
@@ -32,7 +32,7 @@ node
 	node *parent, *left, *right;
 	node()
 	{
-		i = nullptr;
+		i = NULL;
 		parent = left = right = nullptr;
 	}
 	node(item* curitem)
@@ -49,24 +49,20 @@ class
 pqueue
 {
 	private:
-		struct node* root;
+		nodeptr root;
 		uint64_t size;
-		void _enqueue(item* i, nodeptr& n, nodeptr& p);
-		node* _dequeue(nodeptr n);
+		void _enqueue(itemptr i, nodeptr& n, nodeptr& p);
+		nodeptr _dequeue(nodeptr n);
 		void _traversal(nodeptr n);
-		itemptr& _top(nodeptr n);
 
 	public:
-		void enqueue(item* i);
-		item* dequeue();
+		void enqueue(itemptr i);
+		itemptr dequeue();
 		uint64_t getSize() const;
-		itemptr& top(void);
 		void traversal();
 		pqueue()
 		{
-			root = nullptr;
+			root = NULL;
 			size = 0;
 		}
 };
-
-#endif

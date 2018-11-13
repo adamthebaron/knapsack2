@@ -7,14 +7,14 @@ pqueue::getSize(void) const
 }
 
 void
-pqueue::_enqueue(item* i, nodeptr& n, nodeptr& p)
+pqueue::_enqueue(itemptr i, nodeptr& n, nodeptr& p)
 {
-	node* parent = p;
-	if (root == NULL)
+	nodeptr parent = p;
+	if (root == nullptr)
 	{
-		parent = NULL;
+		parent = nullptr;
 	}
-	if(n == NULL)
+	if(n == nullptr)
 	{
 		n = new node();
 		n->i = i;
@@ -57,55 +57,41 @@ pqueue::enqueue(item* i)
 	return;
 }
 
-node*
+nodeptr
 pqueue::_dequeue(nodeptr n)
 {
-	if(n->right != NULL)
+	if(n->right != nullptr)
 	{
 		return _dequeue(n->right);
 	}
-	else if(n->left != NULL)
+	else if(n->left != nullptr)
 	{
 		n->left->parent = n->parent;
-		if(n->parent != NULL)
+		if(n->parent != nullptr)
 			n->parent->right = n->left;
 		else
 			root = n->left;
 	}
 	else
 	{
-		if(n->parent != NULL)
-			n->parent->right = NULL;
+		if(n->parent != nullptr)
+			n->parent->right = nullptr;
 		else
-			root = NULL;
+			root = nullptr;
 	}
 	return n;
 }
 
-item*
+itemptr
 pqueue::dequeue(void)
 {
 	nodeptr n; 
 	nodeptr p;
 
-	if(root == NULL)
-		return NULL;
+	if(root == nullptr)
+		return nullptr;
 	n = this->_dequeue(this->root);
 	return n->i;
-}
-
-itemptr&
-pqueue::_top(nodeptr n)
-{
-	if(n->right != nullptr)
-		_top(n->right);
-	return n->i;
-}
-
-itemptr&
-pqueue::top()
-{
-	return _top(root);
 }
 
 void
