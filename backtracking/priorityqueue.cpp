@@ -111,7 +111,7 @@ pqueue::top()
 void
 pqueue::_traversal(nodeptr n)
 {
-	if(n == NULL)
+	if(n == nullptr)
 		return;
 	n->i->print();
 	_traversal(n->left);

@@ -1,12 +1,9 @@
 #ifndef _PRIORITYQUEUE_HPP_
 #define _PRIORITYQUEUE_HPP_
 
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstdint>
 #include <iostream>
 #include <string>
-#include <inttypes.h>
 
 struct
 item
@@ -35,13 +32,13 @@ node
 	node *parent, *left, *right;
 	node()
 	{
-		i = NULL;
-		parent = left = right = NULL;
+		i = nullptr;
+		parent = left = right = nullptr;
 	}
 	node(item* curitem)
 	{
 		i = curitem;
-		parent = left = right = NULL;
+		parent = left = right = nullptr;
 	}
 };
 
@@ -67,7 +64,7 @@ pqueue
 		void traversal();
 		pqueue()
 		{
-			root = NULL;
+			root = nullptr;
 			size = 0;
 		}
 };

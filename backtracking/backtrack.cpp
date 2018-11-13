@@ -9,62 +9,72 @@ Backtrack::Backtrack()
 }
 
 bool
-Backtrack::promising(std::uint64_t i)
+Backtrack::promising(std::uint64_t& i, std::uint64_t& profit, 
+									   std::uint64_t& weight)
 {
 	std::uint64_t j, k, totweight;
 	float bound;
 
 	j = k = totweight = 0;
 	bound = 0.0;
-	
-	if(items[i].weight >= W)
+	//std::cout << "bound 1: " << bound << std::endl;
+
+	if(weight >= W)
 		return false;
 	else
 	{
 		j = i + 1;
-		bound = items[i].profit;
-		totweight = items[i].weight;
-		while(j <= n && totweight + items[j].weight <= W)
+		bound = profit;
+		//std::cout << "bound 2: " << bound << std::endl;
+		totweight = weight;
+		while(j < n && totweight + items[j].weight <= W)
 		{
 			totweight += items[j].weight;
+			//std::cout << "bound 3: " << bound << std::endl;
 			bound += items[j].profit;
 			j++;
 		}
 		k = j;
-		if(k <= n)
-			bound += (W - totweight) * items[k].profit 
-									 / items[k].weight;
+		if(k < n)
+		{
+			bound += (float) ((W - totweight) * items[k].profit 
+											  / items[k].weight);
+			//std::cout << "bound 4: " << bound << std::endl;
+		}
+		std::cout << "(promising) at index " << i << " with bound " << bound << " and maxprofit " << maxprofit << std::endl;
 		return bound > maxprofit;
 	}
 }
 
 void
-Backtrack::knapsack(std::uint64_t i)
+Backtrack::knapsack(std::uint64_t& i, std::uint64_t& profit, 
+									  std::uint64_t& weight)
 {
-	if(items[i].weight <= W && items[i].profit > maxprofit)
+	if(weight <= W && profit > maxprofit)
 	{
-		maxprofit = items[i].profit;
+		maxprofit = profit;
 		numbest = i;
 		bestset = include;
 	}
-	if(promising(i))
+	if(promising(i, profit, weight) && i + 1 < n)
 	{
-		//include[i + 1] = "yes";
-		include[i + 1] = &YES;
-		knapsack(i + 1);
-		//include[i + 1] = "no";
-		include[i + 1] = &NO;
-		knapsack(i + 1);
+		include[i + 1] = true;
+		std::cout << "adding item " << i + 1 << std::endl;
+		i++;
+		profit += items[i + 1].profit;
+		weight += items[i + 1].weight;
+		knapsack(i, profit, weight);
+		include[i + 1] = false;
+		std::cout << "not adding item " << i + 1 << std::endl;
+		i++;
+		knapsack(i, profit, weight);
 	}
 }
 
 bool
 Backtrack::setW(std::uint64_t w)
 {
-	if(W - w < 0)
-		return false;
-	W -= w;
-	return true;
+	this->W = w;
 }
 
 void

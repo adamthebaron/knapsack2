@@ -1,4 +1,4 @@
-#include "backtrack.hpp"
+#include "priorityqueue.hpp"
 
 #include <fstream>
 
@@ -14,18 +14,17 @@ initpq(Backtrack& bt, std::ifstream& fd)
 {
 	item** items;
 	std::uint64_t n, W;
-	
+
 	fd >> n;
 	fd >> W;
 	items = new item*[n];
 	bt.items = new item[n];
-	bt.include = new std::string*[n];
+	bt.include = new bool[n];
 	bt.setn(n);
 	bt.setW(W);
 	for(std::uint64_t i = 0; i < n; i++)
 	{
 		items[i] = new item();
-		bt.include[i] = new std::string();
 		fd >> items[i]->name;
 		fd >> items[i]->profit;
 		fd >> items[i]->weight;
@@ -45,8 +44,6 @@ initarr(Backtrack& bt)
 	std::cout << "in initarr" << std::endl;
 	while((item = bt.pq.dequeue()) != NULL)
 	{
-		std::cout << "adding item " << item->name 
-				  << " to index " << i << std::endl;
 		bt.items[i].name = item->name;
 		bt.items[i].profit = item->profit;
 		bt.items[i].weight = item->weight;
@@ -59,6 +56,9 @@ initarr(Backtrack& bt)
 int
 main(int argc, char* argv[])
 {
+	std::uint64_t maxprofit, solweight, numbest, index;
+	
+	maxprofit = solweight = numbest = index = 0;
 	if(argc != 2)
 	{
 		usage();
@@ -70,12 +70,22 @@ main(int argc, char* argv[])
 	std::cout << "initialized priority queue" << std::endl;
 	initarr(bt);
 	std::cout << "initialized array" << std::endl;
-	bt.knapsack(0);
+	std::cout << "array:" << std::endl;
+	for(std::uint64_t i = 0; i < bt.n; i++)
+	{
+		std::cout << bt.items[i].name << " ";
+		std::cout << bt.items[i].profit << " ";
+		std::cout << bt.items[i].weight << " ";
+		std::cout << bt.items[i].ratio;
+		std::cout << std::endl;
+	}
+	bt.knapsack(index, maxprofit, solweight);
 	std::cout << "found knapsack solution" << std::endl;
-	std::cout << "max profit: " << bt.maxprofit << std::endl;
+	std::cout << "max profit: " << maxprofit << std::endl;
+	std::cout << "solution weight: " << solweight << std::endl;
 	std::cout << "items chosen: ";
-	for(uint64_t i = 0; i < bt.numbest; i++)
-		std::cout << *(bt.bestset[i]) << " ";
+	for(uint64_t i = 0; i < bt.n; i++)
+		std::cout << i << ": " << bt.include[i] << " ";
 	std::cout << std::endl;
 	exit(0);
 }
