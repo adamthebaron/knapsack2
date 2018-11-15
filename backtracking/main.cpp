@@ -3,17 +3,18 @@
 
 #include "priorityqueue.hpp"
 
-std::uint64_t* w;
-std::uint64_t* p;
-std::uint64_t n, W, numbest, solweight, maxprofit;
+std::vector<uint64_t> w;
+std::vector<uint64_t> p;
+uint64_t n, W, numbest, solweight, maxprofit;
 std::vector<std::string> names;
-char* include;
-char* bestset;
+std::vector<char> include;
+std::vector<char> bestset;
+pqueue pq;
 
 bool
-promising(std::uint64_t i, std::uint64_t profit, std::uint64_t weight)
+promising(uint64_t i, uint64_t profit, uint64_t weight)
 {
-	std::uint64_t j, k, totalweight;
+	uint64_t j, k, totalweight;
 	float bound;
 	
 	j = k = totalweight = 0;
@@ -23,27 +24,28 @@ promising(std::uint64_t i, std::uint64_t profit, std::uint64_t weight)
 	j = i + 1;
 	bound = profit;
 	totalweight = weight;
-	while(j < n && totalweight + w[j] <= W)
+	while(j <= n && (totalweight + w[j]) <= W)
 	{
 		totalweight += w[j];
 		bound += p[j];
 		j++;
 	}
 	k = j;
-	if(k < n)
+	if(k <= n)
 	{
 		bound += (W - totalweight) * (float) (p[k] / w[k]);
 	}
+	//std::cout << "bound is " << bound << " maxprofit: " << maxprofit << std::endl;
 	return bound > maxprofit;
 }
 
 void
-knapsack(std::uint64_t i, std::uint64_t profit, std::uint64_t weight)
+knapsack(uint64_t i, uint64_t profit, uint64_t weight)
 {
 	if(weight <= W && profit > maxprofit)
 	{
 		maxprofit = profit;
-		numbest = i;
+        numbest = i;
 		bestset = include;
 	}
 	if(promising(i, profit, weight))
@@ -64,19 +66,15 @@ usage(void)
 }
 
 void
-initpq(pqueue& pq, std::ifstream& fd)
+initpq(std::ifstream& fd)
 {
-	std::uint64_t n, W;
 	itemptr* items;
 
 	fd >> n;
 	fd >> W;
-	std::cout << "got n " << n << " got W " << W << std::endl;
+	//std::cout << "got n " << n << " got W " << W << std::endl;
 	items = new itemptr[n];
-	w = new std::uint64_t[n];
-	p = new std::uint64_t[n];
-	include = new char[n];
-	for(std::uint64_t i = 0; i < n; i++)
+	for(uint64_t i = 0; i < n; i++)
 	{
 		items[i] = new item();
 		fd >> items[i]->name;
@@ -84,61 +82,74 @@ initpq(pqueue& pq, std::ifstream& fd)
 		fd >> items[i]->weight;
 		items[i]->ratio = (double) items[i]->profit /
 						  (double) items[i]->weight;
+        //std::cout << "enqueuing " << items[i]->name << std::endl;
 		pq.enqueue(items[i]);
 	}
 }
 
 void
-initarr(pqueue& pq)
+initarr()
 {
 	itemptr item;
 	uint64_t i;
 
 	i = 0;
-	std::cout << "in initarr" << std::endl;
-	while((item = pq.dequeue()) != nullptr)
+	//std::cout << "in initarr" << std::endl;
+	p.push_back(0);
+	w.push_back(0);
+	include.push_back('n');
+	while((item = pq.dequeue()) != NULL)
 	{
-		names.push_back(item->name);
-		p[i] = item->profit;
-		w[i] = item->weight;
-		i++;
+        names.push_back(item->name);
+		p.push_back(item->profit);
+		w.push_back(item->weight);
+        include.push_back('n');
+		//std::cout << "dequeueing " << names[i] << " " << p[i] << " " << w[i] << std::endl;
+        i++;
 	}
 }
 
 int
 main(int argc, char* argv[])
 {
-	pqueue pq;
-	std::uint64_t index;
+	uint64_t index;
+    uint64_t profit, weight;
+	std::vector<std::string> chosenItems;
 
-	n = W = numbest = maxprofit = index = solweight = 0;
-	w = p = nullptr;
-	include = nullptr;
+	profit = weight = n = W = numbest = maxprofit = index = solweight = 0;
 	if(argc != 2)
 	{
 		usage();
 		exit(1);
 	}
 	std::ifstream filestream(argv[1]);
-	initpq(pq, filestream);
-	std::cout << "initialized priority queue" << std::endl;
-	initarr(pq);
-	std::cout << "initialized array" << std::endl;
-	std::cout << "array:" << std::endl;
-	for(std::uint64_t i = 0; i < n; i++)
+	initpq(filestream);
+	//std::cout << "initialized priority queue n " << n << " w: " << W << std::endl;
+	initarr();
+	//std::cout << "initialized array" << std::endl;
+	//std::cout << "array:" << std::endl;
+	/*for(uint64_t i = 0; i < n; i++)
 	{
-		std::cout << names[i] << " ";
+        std::cout << i << ": ";
+        std::cout << names[i] << " ";
 		std::cout << p[i] << " ";
 		std::cout << w[i] << " ";
 		std::cout << std::endl;
+	}*/
+	knapsack(index, profit, weight);
+	for(uint64_t i = 0; i < include.size(); i++)
+	{
+		if(bestset[i] == 'y')
+		{
+			solweight += w[i];
+			chosenItems.push_back(names[i - 1]);
+		}
 	}
-	knapsack(index, maxprofit, solweight);
 	std::cout << "found knapsack solution" << std::endl;
 	std::cout << "max profit: " << maxprofit << std::endl;
 	std::cout << "solution weight: " << solweight << std::endl;
 	std::cout << "items chosen: ";
-	for(uint64_t i = 0; i < n; i++)
-		std::cout << i << ": " << include[i] << " ";
-	std::cout << std::endl;
+	for(std::string chosenItem : chosenItems)
+		std::cout << chosenItem << std::endl;
 	exit(0);
 }
